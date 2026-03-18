@@ -1,4 +1,4 @@
-this is the final product , how would you rate this <div align="center"> 
+<div align="center">
 
 # StormProof
 
@@ -509,6 +509,22 @@ graph TD
     DS -->|"forecast data"| DASH
     CC -->|"claims analytics"| DASH
     UPI -->|"payout confirmation"| NOTIF
+
+    style OWM fill:#1e88e5,stroke:#1565c0,color:#fff
+    style CPCB fill:#1e88e5,stroke:#1565c0,color:#fff
+    style NDMA fill:#1e88e5,stroke:#1565c0,color:#fff
+
+    style TE fill:#f4511e,stroke:#d84315,color:#fff
+    style DS fill:#f4511e,stroke:#d84315,color:#fff
+    style XGB fill:#f4511e,stroke:#d84315,color:#fff
+
+    style PC fill:#2e7d32,stroke:#1b5e20,color:#fff
+    style CC fill:#2e7d32,stroke:#1b5e20,color:#fff
+    style BC fill:#2e7d32,stroke:#1b5e20,color:#fff
+
+    style UPI fill:#7b1fa2,stroke:#6a1b9a,color:#fff
+    style NOTIF fill:#7b1fa2,stroke:#6a1b9a,color:#fff
+    style DASH fill:#7b1fa2,stroke:#6a1b9a,color:#fff
 ```
 
 ---
@@ -517,12 +533,20 @@ graph TD
 
 ```mermaid
 sequenceDiagram
-    participant API as WeatherAPI
-    participant TE as TriggerEngine
-    participant FC as FraudCheck
-    participant CC as ClaimCenter
-    participant UPI as UPIGateway
-    participant W as Worker
+    box rgb(30, 136, 229) External
+        participant API as WeatherAPI
+    end
+    box rgb(244, 81, 30) Core Engine
+        participant TE as TriggerEngine
+        participant FC as FraudCheck
+    end
+    box rgb(46, 125, 50) Guidewire
+        participant CC as ClaimCenter
+    end
+    box rgb(123, 31, 162) Output
+        participant UPI as UPIGateway
+        participant W as Worker
+    end
 
     Note over API,TE: Every 30 minutes
     API->>TE: Rain/temp/AQI data
