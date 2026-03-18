@@ -1,6 +1,6 @@
 <div align="center">
 
-# StormProof
+# GigShield
 
 ### India's First Weekly Income Shield for Food Delivery Partners
 
@@ -49,7 +49,7 @@ His financial reality leaves no room for disruption. He sends ₹8,000 per month
 
 Swiggy provides Rajan with basic accidental injury coverage of ₹2 lakh through its platform insurance partner. This covers hospitalisation from road accidents. It covers zero rupees of income lost because delivery zones became unserviceable during heavy rain, because the AQI crossed hazardous thresholds, or because a government bandh shut down platform operations for an entire day.
 
-StormProof exists to fill that gap. It covers income loss only from external disruptions: weather, pollution, and social disruptions such as government-imposed curfews. It strictly excludes health, life, accidents, and vehicle repairs. Those risks are already addressed by existing products. The income gap is not.
+GigShield exists to fill that gap. It covers income loss only from external disruptions: weather, pollution, and social disruptions such as government-imposed curfews. It strictly excludes health, life, accidents, and vehicle repairs. Those risks are already addressed by existing products. The income gap is not.
 
 ### Scenario A: Mumbai Monsoon
 
@@ -57,7 +57,7 @@ StormProof exists to fill that gap. It covers income loss only from external dis
 
 July 18, 2:00 PM. Rainfall in Dharavi crosses 30mm in three hours. Arjun has completed 12 of his 20-order target at 2 PM and is on pace for an ₹820 day. Zomato marks the Dharavi zone as reduced serviceability. Order flow drops to near zero. Arjun finishes the day at 15 orders, missing his ₹120 daily bonus. He earns ₹480 instead of ₹820, a loss of ₹340.
 
-StormProof detects the rainfall trigger at 2:15 PM via the OpenWeatherMap API (`hourly.rain.1h` field exceeding 10mm/hr across three consecutive readings in Arjun's GPS zone). The system confirms Arjun's GPS was active in the affected zone at trigger time. By 4:00 PM, ₹300 (2.5 hours at ₹120/hr) lands in Arjun's UPI account. No app interaction was required from Arjun. No claim form. No phone call. The payout is calculated, validated, and disbursed entirely by the system.
+GigShield detects the rainfall trigger at 2:15 PM via the OpenWeatherMap API (`hourly.rain.1h` field exceeding 10mm/hr across three consecutive readings in Arjun's GPS zone). The system confirms Arjun's GPS was active in the affected zone at trigger time. By 4:00 PM, ₹300 (2.5 hours at ₹120/hr) lands in Arjun's UPI account. No app interaction was required from Arjun. No claim form. No phone call. The payout is calculated, validated, and disbursed entirely by the system.
 
 ### Scenario B: Delhi AQI Crisis
 
@@ -65,7 +65,7 @@ StormProof detects the rainfall trigger at 2:15 PM via the OpenWeatherMap API (`
 
 November 6. At 11:00 AM, the AQI in Dwarka crosses 420. The Delhi government issues an outdoor activity advisory under GRAP Stage IV. Priya stops working at noon after completing 8 orders. Her entire afternoon earning window, typically worth ₹400 to ₹500, is eliminated.
 
-StormProof detects the CPCB AQI reading crossing the 400 threshold, sustained for four consecutive hours across at least two monitoring stations in the Delhi zone. The system confirms Priya's GPS was active in the affected city zone during the trigger window. By 3:00 PM, ₹240 (2 hours at ₹120/hr) is in Priya's UPI account.
+GigShield detects the CPCB AQI reading crossing the 400 threshold, sustained for four consecutive hours across at least two monitoring stations in the Delhi zone. The system confirms Priya's GPS was active in the affected city zone during the trigger window. By 3:00 PM, ₹240 (2 hours at ₹120/hr) is in Priya's UPI account.
 
 ### Scenario C: Bengaluru Bandh
 
@@ -73,7 +73,7 @@ StormProof detects the CPCB AQI reading crossing the 400 threshold, sustained fo
 
 A Tuesday morning. An unexpected bandh is called at 8:00 AM. All delivery platforms suspend operations across Bengaluru. Rajan loses a full working day worth ₹800.
 
-StormProof detects the state-issued public advisory from the Karnataka government alert feed. The system cross-verifies against NDMA advisory data. A full-day payout of ₹480 (4 hours at ₹120/hr, capped per single-trigger rules) is released to Rajan's UPI. This is the trigger no other insurance product in India currently covers. Weather disruptions at least have seasonal predictability. A bandh has none.
+GigShield detects the state-issued public advisory from the Karnataka government alert feed. The system cross-verifies against NDMA advisory data. A full-day payout of ₹480 (4 hours at ₹120/hr, capped per single-trigger rules) is released to Rajan's UPI. This is the trigger no other insurance product in India currently covers. Weather disruptions at least have seasonal predictability. A bandh has none.
 
 ---
 
@@ -87,13 +87,13 @@ StormProof detects the state-issued public advisory from the Karnataka governmen
 | **Toffee Insurance** | "Salary Protect Plan" (Kamai Bachao Yojana): ₹1,000/day income protection, but triggered only by hospitalisation. ₹449/year. | No | No | No | No | No (indemnity-based) |
 | **Acko** | Accident and medical coverage for Swiggy/Zomato partners through platform partnerships. ₹10 lakh accidental death/disability. 11,000+ hospital network. | No | No | No | No (pay-per-day option) | No |
 | **Digit Insurance** | Parametric weather insurance settled for farmers (moisture index, 500+ farmers, January 2025). Not extended to gig workers. | No (farmers only) | No | No | No | Yes (agriculture only) |
-| **StormProof** | **Income loss from weather, pollution, and social disruptions for food delivery workers** | **Yes** | **Yes** | **Yes** | **Yes (₹159/week)** | **Yes (5 triggers)** |
+| **GigShield** | **Income loss from weather, pollution, and social disruptions for food delivery workers** | **Yes** | **Yes** | **Yes** | **Yes (₹159/week)** | **Yes (5 triggers)** |
 
 **The confirmed gap:** After searching IRDAI product filings, insurance aggregator catalogues (PolicyBazaar, Coverfox), and all four companies listed above, no insurer in India has filed a parametric income loss product for gig workers triggered by environmental or social disruptions. Toffee's "Salary Protect" comes closest but covers income loss only from hospitalisation, not from rain, heat, pollution, or curfews. The gap is real, documented, and unoccupied.
 
 ### Regulatory Fit
 
-StormProof operates within a regulatory framework that actively encourages this product category:
+GigShield operates within a regulatory framework that actively encourages this product category:
 
 - **IRDAI (Insurance Products) Regulations 2024** explicitly encourage innovative parametric product design and have removed the separate micro-insurance product filing process, streamlining approval for novel low-premium products.
 - **IRDAI Regulatory Sandbox Regulations 2025** provide the formal pathway for testing novel parametric products with a limited customer base over a 6-to-12-month period, with relaxed regulatory requirements during the sandbox phase.
@@ -104,25 +104,25 @@ StormProof operates within a regulatory framework that actively encourages this 
 
 ## 3. Competitive Moat
 
-Saying "no one does this today" is not a moat. Here are three structural reasons why Acko or Digit cannot replicate StormProof within six months, even with unlimited budget.
+Saying "no one does this today" is not a moat. Here are three structural reasons why Acko or Digit cannot replicate GigShield within six months, even with unlimited budget.
 
 ### 3.1 Data Network Effects
 
-Every payout StormProof makes creates a labelled training record: the specific trigger event, GPS coordinates, trigger duration, actual income loss verified against zone peer order-completion rates, and claim outcome (approved, flagged, or rejected). After six months of operation with 10,000 active workers, StormProof holds the most accurate zone-level income-loss-versus-disruption dataset in India. No public dataset provides this correlation. A competitor starting today begins with zero labelled records and must operate for six or more months to accumulate comparable data. StormProof's XGBoost premium model and Disruption Score engine improve with every weekly refit. The accuracy gap between StormProof and a new entrant widens over time, it does not narrow.
+Every payout GigShield makes creates a labelled training record: the specific trigger event, GPS coordinates, trigger duration, actual income loss verified against zone peer order-completion rates, and claim outcome (approved, flagged, or rejected). After six months of operation with 10,000 active workers, GigShield holds the most accurate zone-level income-loss-versus-disruption dataset in India. No public dataset provides this correlation. A competitor starting today begins with zero labelled records and must operate for six or more months to accumulate comparable data. GigShield's XGBoost premium model and Disruption Score engine improve with every weekly refit. The accuracy gap between GigShield and a new entrant widens over time, it does not narrow.
 
 ### 3.2 Worker Lock-In via Personalised Pricing
 
-Workers with 12 or more weeks of claims history in StormProof receive the most personalised premium, reflecting their actual zone risk exposure and individual claim frequency. Claim-free workers accumulate a cumulative discount (5% at week 12, increasing with continued clean history) that resets to zero if they switch to a competitor. A worker paying ₹97/week after 20 weeks of history would restart at ₹159/week with a new provider. The longer a worker stays, the cheaper their premium becomes. This is a structural retention mechanism that money alone cannot replicate.
+Workers with 12 or more weeks of claims history in GigShield receive the most personalised premium, reflecting their actual zone risk exposure and individual claim frequency. Claim-free workers accumulate a cumulative discount (5% at week 12, increasing with continued clean history) that resets to zero if they switch to a competitor. A worker paying ₹97/week after 20 weeks of history would restart at ₹159/week with a new provider. The longer a worker stays, the cheaper their premium becomes. This is a structural retention mechanism that money alone cannot replicate.
 
 ### 3.3 Regulatory First-Mover Advantage
 
-IRDAI sandbox approval takes 6 to 12 months from filing to operational clearance. Filing first occupies the regulatory slot for parametric gig-worker income protection. Neither Digit nor Acko has filed this product category as of March 2026. A six-to-twelve-month regulatory head start cannot be shortened by engineering speed or marketing budget. During that window, StormProof accumulates workers, data, and premium history that define market pricing for the category.
+IRDAI sandbox approval takes 6 to 12 months from filing to operational clearance. Filing first occupies the regulatory slot for parametric gig-worker income protection. Neither Digit nor Acko has filed this product category as of March 2026. A six-to-twelve-month regulatory head start cannot be shortened by engineering speed or marketing budget. During that window, GigShield accumulates workers, data, and premium history that define market pricing for the category.
 
 ---
 
 ## 4. Parametric Triggers
 
-StormProof defines five parametric triggers. Each trigger has an objective, independently verifiable data source, a specific threshold based on government or international definitions, and a payout calculated as a function of the worker's effective hourly rate of ₹120/hr.
+GigShield defines five parametric triggers. Each trigger has an objective, independently verifiable data source, a specific threshold based on government or international definitions, and a payout calculated as a function of the worker's effective hourly rate of ₹120/hr.
 
 ### Trigger Summary
 
@@ -238,7 +238,7 @@ Earnings baseline: ₹4,800/week (₹800/day x 6 active days). Rating: 3.8. Zone
 
 ## 6. AI/ML Integration
 
-StormProof uses four distinct machine learning models, each with a named purpose, specific input features, and a defined retraining schedule.
+GigShield uses four distinct machine learning models, each with a named purpose, specific input features, and a defined retraining schedule.
 
 ### Model 1: XGBoost Gradient Boosted Trees — Dynamic Premium Engine
 
@@ -311,7 +311,7 @@ The models are not static. Accuracy improves structurally over time:
 
 ## 7. Fraud Detection
 
-StormProof implements four fraud detection signals, each with specific parameters. Every claim passes through all four checks before payout.
+GigShield implements four fraud detection signals, each with specific parameters. Every claim passes through all four checks before payout.
 
 ### Signal 1: GPS Zone Validation
 
@@ -357,7 +357,7 @@ def validate_weather_trigger(lat, lon, trigger_type):
 
 ## 8. SmartShift Advisor
 
-StormProof does not just pay out after disruptions. It actively helps workers avoid them.
+GigShield does not just pay out after disruptions. It actively helps workers avoid them.
 
 The SmartShift Advisor runs the Disruption Score model (Model 3) on 48-hour weather and AQI forecast data and sends each worker a daily shift advisory notification, colour-coded by predicted disruption risk:
 
@@ -371,13 +371,13 @@ The SmartShift Advisor runs the Disruption Score model (Model 3) on 48-hour weat
 
 > Tomorrow 6AM-10AM is GREEN (predicted earnings ₹600-800). 2PM-6PM is RED (heavy rain + AQI spike predicted, 78% payout probability). Recommendation: work morning, skip afternoon.
 
-**Strategic value for the insurer:** SmartShift reduces StormProof's claim payouts by approximately 15% because workers proactively avoid disrupted shifts. The insurer saves money on claims. The worker earns more by reallocating hours to non-disrupted windows. No insurance product has ever told its policyholder how to avoid needing a claim. StormProof flips the insurance paradigm from reactive compensation to proactive income optimisation.
+**Strategic value for the insurer:** SmartShift reduces GigShield's claim payouts by approximately 15% because workers proactively avoid disrupted shifts. The insurer saves money on claims. The worker earns more by reallocating hours to non-disrupted windows. No insurance product has ever told its policyholder how to avoid needing a claim. GigShield flips the insurance paradigm from reactive compensation to proactive income optimisation.
 
 ---
 
 ## 9. Insurer Admin Dashboard
 
-The StormProof admin dashboard provides four capabilities for the insurance carrier, all powered by the same ML models that serve workers.
+The GigShield admin dashboard provides four capabilities for the insurance carrier, all powered by the same ML models that serve workers.
 
 ### 9.1 Predictive Claims Forecast
 
@@ -404,7 +404,7 @@ A city-level map where each zone is coloured by deviation between actual claim r
 
 Each worker sees a weekly value summary, delivered via WhatsApp or the app dashboard:
 
-> *This week you were protected against ₹1,050 in potential income loss. You earned ₹5,250 instead of ₹4,200. Since joining StormProof 8 weeks ago: ₹4,800 protected total. ₹720 paid in premiums. StormProof ROI: 6.7x.*
+> *This week you were protected against ₹1,050 in potential income loss. You earned ₹5,250 instead of ₹4,200. Since joining GigShield 8 weeks ago: ₹4,800 protected total. ₹720 paid in premiums. GigShield ROI: 6.7x.*
 
 This makes the product's value visible every week, even in weeks with zero claims. Workers who see a 6.7x return on their premium do not lapse.
 
@@ -412,11 +412,11 @@ This makes the product's value visible every week, even in weeks with zero claim
 
 ## 10. Guidewire Platform Integration
 
-StormProof is designed to run natively on Guidewire InsuranceSuite, mapping each component of the product lifecycle to a specific Guidewire system.
+GigShield is designed to run natively on Guidewire InsuranceSuite, mapping each component of the product lifecycle to a specific Guidewire system.
 
 ### PolicyCenter: Policy Lifecycle Management
 
-- **Worker onboarding:** New workers register through the StormProof frontend. PolicyCenter creates a weekly policy with coverage terms specifying all 5 triggers, weekly payout caps (55% of 4-week rolling earnings baseline), and the earnings baseline tracking interval.
+- **Worker onboarding:** New workers register through the GigShield frontend. PolicyCenter creates a weekly policy with coverage terms specifying all 5 triggers, weekly payout caps (55% of 4-week rolling earnings baseline), and the earnings baseline tracking interval.
 - **Premium engine integration:** The XGBoost premium model (Model 1) is integrated into PolicyCenter's rating algorithm. Every Sunday night the model refits, and updated premiums are applied to the following week's policy cycle. Workers are notified of premium changes (upward or downward) before the new week begins.
 - **Policy states:** Active, Paused (missed payment), Needs Review (low-confidence claim pending), Suspended (fraud flag active).
 - **Coverage terms stored per worker:** 5 trigger definitions, individual premium multiplier, 4-week rolling earnings baseline, zone assignment, and cumulative claim history.
@@ -436,7 +436,7 @@ StormProof is designed to run natively on Guidewire InsuranceSuite, mapping each
 - **Premium adjustment notifications:** When the XGBoost model updates a worker's risk profile, BillingCenter sends a notification explaining the premium change (up or down) with the contributing factors.
 - **Lapse management:** A missed payment pauses coverage but does not cancel the policy. Coverage resumes automatically on the next successful payment. No penalty for pausing. This reduces lapse-driven churn, which is the primary cause of micro-insurance policy failure in India (50-70% lapse rates within 6 months for traditional micro-insurance products).
 
-**Core advantage for the carrier:** By building natively on Guidewire InsuranceSuite, the insurance carrier gets a production-ready parametric product with zero legacy system integration work. The trigger-to-payout automation runs entirely within Guidewire's existing claims workflow. PolicyCenter, ClaimCenter, and BillingCenter handle policy lifecycle, adjudication, and billing respectively, exactly as they were designed to, with StormProof's parametric logic layered on top.
+**Core advantage for the carrier:** By building natively on Guidewire InsuranceSuite, the insurance carrier gets a production-ready parametric product with zero legacy system integration work. The trigger-to-payout automation runs entirely within Guidewire's existing claims workflow. PolicyCenter, ClaimCenter, and BillingCenter handle policy lifecycle, adjudication, and billing respectively, exactly as they were designed to, with GigShield's parametric logic layered on top.
 
 ---
 
@@ -444,7 +444,7 @@ StormProof is designed to run natively on Guidewire InsuranceSuite, mapping each
 
 ### The Catastrophic Risk Scenario
 
-Three consecutive days of heavy rainfall across all of Mumbai during peak monsoon. 50,000 active StormProof workers simultaneously trigger Trigger 1. Estimated liability: 50,000 workers x ₹300/payout = ₹1.5 crore in 72 hours.
+Three consecutive days of heavy rainfall across all of Mumbai during peak monsoon. 50,000 active GigShield workers simultaneously trigger Trigger 1. Estimated liability: 50,000 workers x ₹300/payout = ₹1.5 crore in 72 hours.
 
 No primary insurer can absorb this exposure concentration without reinsurance support.
 
@@ -472,7 +472,7 @@ graph TD
         NDMA["NDMA / State Alerts"]
     end
 
-    subgraph Core["StormProof Core Engine"]
+    subgraph Core["GigShield Core Engine"]
         TE["Trigger Engine"]
         DS["Disruption Score Model"]
         XGB["XGBoost Premium Engine"]
@@ -621,8 +621,8 @@ sequenceDiagram
 
 <div align="center">
 
-**StormProof** | Guidewire DEVTrails 2026 | Phase 1 Ideation
+**GigShield** | Guidewire DEVTrails 2026 | Phase 1 Ideation
 
-*When external disruptions wipe out a delivery worker's earning day, StormProof pays automatically. No paperwork. No waiting. No gaps.*
+*When external disruptions wipe out a delivery worker's earning day, GigShield pays automatically. No paperwork. No waiting. No gaps.*
 
 </div>
