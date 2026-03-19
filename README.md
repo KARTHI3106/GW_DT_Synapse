@@ -4,7 +4,7 @@
 
 ### India's First Weekly Income Shield for Food Delivery Partners
 
-*Personalised earnings velocity collapse protection for Swiggy and Zomato delivery workers*
+_Personalised earnings velocity collapse protection for Swiggy and Zomato delivery workers_
 
 **India's first weekly income shield for Swiggy and Zomato delivery partners that pays automatically when verified external disruptions wipe out their earning day, with zero paperwork.**
 
@@ -32,8 +32,6 @@
 12. [System Architecture](#12-system-architecture)
 13. [Trigger-to-Payout Workflow](#13-trigger-to-payout-workflow)
 14. [Tech Stack](#14-tech-stack)
-15. [Development Plan](#15-development-plan)
-16. [Deliverables Checklist](#16-deliverables-checklist)
 
 ---
 
@@ -45,7 +43,7 @@ Rajan is 27 years old and works as a Swiggy delivery partner out of the HSR Layo
 
 Rajan's per-order economics break down as follows: ₹18 base pay per order, plus ₹2 per kilometre distance charge, plus a ₹100 daily bonus if he completes 20 orders. On a good day he finishes 22 to 24 orders. On a rainy day he manages 9 to 11 orders and misses the bonus entirely, losing both the per-order income and the ₹100 bonus in a single stroke.
 
-His financial reality leaves no room for disruption. He sends ₹8,000 per month to his family. He pays ₹5,500 for shared accommodation in Bengaluru. After fuel, phone data, and bike maintenance, he has ₹600 remaining for emergencies. There is no savings buffer beyond two weeks. A single week of weather-disrupted earnings puts him behind on rent.
+His financial reality leaves no room for disruption. He sends ₹8,000 per month to his family. He pays ₹5,500 for shared accommodation in Bengaluru. After fuel (₹3,000), phone data (₹500), and bike maintenance (₹1,500), he has ₹2,500 remaining for emergencies. There is no savings buffer beyond two weeks. A single week of weather-disrupted earnings puts him behind on rent.
 
 Swiggy provides Rajan with basic accidental injury coverage of ₹2 lakh through its platform insurance partner. This covers hospitalisation from road accidents. It covers zero rupees of income lost because delivery zones became unserviceable during heavy rain, because the AQI crossed hazardous thresholds, or because a government bandh shut down platform operations for an entire day.
 
@@ -81,13 +79,13 @@ GigShield detects the state-issued public advisory from the Karnataka government
 
 ### Existing Products and Their Gaps
 
-| Product | What It Covers | Income Loss from Weather? | Income Loss from AQI? | Income Loss from Curfew/Bandh? | Weekly Premium? | Parametric Triggers? |
-|---|---|---|---|---|---|---|
-| **Onsurity** | Group health insurance for SMEs and startups. Monthly plans from ₹145/month. Requires employer-based payroll enrolment. | No | No | No | No | No |
-| **Toffee Insurance** | "Salary Protect Plan" (Kamai Bachao Yojana): ₹1,000/day income protection, but triggered only by hospitalisation. ₹449/year. | No | No | No | No | No (indemnity-based) |
-| **Acko** | Accident and medical coverage for Swiggy/Zomato partners through platform partnerships. ₹10 lakh accidental death/disability. 11,000+ hospital network. | No | No | No | No (pay-per-day option) | No |
-| **Digit Insurance** | Parametric weather insurance settled for farmers (moisture index, 500+ farmers, January 2025). Not extended to gig workers. | No (farmers only) | No | No | No | Yes (agriculture only) |
-| **GigShield** | **Income loss from weather, pollution, and social disruptions for food delivery workers** | **Yes** | **Yes** | **Yes** | **Yes (₹159/week)** | **Yes (5 triggers)** |
+| Product              | What It Covers                                                                                                                                          | Income Loss from Weather? | Income Loss from AQI? | Income Loss from Curfew/Bandh? | Weekly Premium?         | Parametric Triggers?   |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | --------------------- | ------------------------------ | ----------------------- | ---------------------- |
+| **Onsurity**         | Group health insurance for SMEs and startups. Monthly plans from ₹145/month. Requires employer-based payroll enrolment.                                 | No                        | No                    | No                             | No                      | No                     |
+| **Toffee Insurance** | "Salary Protect Plan" (Kamai Bachao Yojana): ₹1,000/day income protection, but triggered only by hospitalisation. ₹449/year.                            | No                        | No                    | No                             | No                      | No (indemnity-based)   |
+| **Acko**             | Accident and medical coverage for Swiggy/Zomato partners through platform partnerships. ₹10 lakh accidental death/disability. 11,000+ hospital network. | No                        | No                    | No                             | No (pay-per-day option) | No                     |
+| **Digit Insurance**  | Parametric weather insurance settled for farmers (moisture index, 500+ farmers, January 2025). Not extended to gig workers.                             | No (farmers only)         | No                    | No                             | No                      | Yes (agriculture only) |
+| **GigShield**        | **Income loss from weather, pollution, and social disruptions for food delivery workers**                                                               | **Yes**                   | **Yes**               | **Yes**                        | **Yes (₹159/week)**     | **Yes (5 triggers)**   |
 
 **The confirmed gap:** After searching IRDAI product filings, insurance aggregator catalogues (PolicyBazaar, Coverfox), and all four companies listed above, no insurer in India has filed a parametric income loss product for gig workers triggered by environmental or social disruptions. Toffee's "Salary Protect" comes closest but covers income loss only from hospitalisation, not from rain, heat, pollution, or curfews. The gap is real, documented, and unoccupied.
 
@@ -126,13 +124,13 @@ GigShield defines five parametric triggers. Each trigger has an objective, indep
 
 ### Trigger Summary
 
-| # | Trigger | Threshold | Source (API + field) | Payout | Justification |
-|---|---|---|---|---|---|
-| 1 | Heavy Rainfall | >30mm cumulative in 3 consecutive hours, within worker's 5km GPS zone | OpenWeatherMap One Call API, `hourly.rain.1h` field, polled every 30 min per active zone | ₹300 (2.5 hrs x ₹120/hr) | IMD defines 30mm/3hr as the lower bound of heavy rain requiring public advisories. Below 30mm deliveries slow but continue. At 30mm+ platforms mark zones as reduced serviceability. This is the operational inflection point. |
-| 2 | Extreme Heat | `feels_like` >43°C for 3+ consecutive hours within 11am-4pm | OpenWeatherMap current weather endpoint, `feels_like` field, polled hourly per city | ₹360 (3 hrs x ₹120/hr) | ILO defines 43°C wet-bulb equivalent as dangerous heat stress for outdoor workers. NDMA issued India's first gig worker heat advisory (July 2025) using this threshold. The 11am-4pm window targets the lunch surge; losing this window eliminates the day's second income spike. |
-| 3 | Severe AQI | AQI >400 (CPCB Severe) for 4+ consecutive hours, confirmed by at least 2 monitoring stations | CPCB AQI API via data.gov.in (free, hourly, station-level) + WAQI API as fallback | ₹240 (2 hrs x ₹120/hr) | Below 400 riders operate with discomfort. Above 400 GRAP Stage IV activates in Delhi NCR with vehicle restrictions and outdoor activity advisories. 2-station confirmation prevents a single faulty sensor from triggering payouts across a zone. |
-| 4 | Government Curfew / Bandh | State or district confirmed curfew, Section 144 order, or bandh advisory covering worker's city for 3+ hours during 8am-9pm | State government alert portals (Karnataka, Maharashtra, UP, Bihar, Telangana) + NDMA advisory API cross-verification | ₹480 (4 hrs x ₹120/hr) | Platforms halt operations during confirmed Section 144 orders. Government advisory is objective, auditable, and public. Fraud on this trigger is structurally impossible because a worker cannot create or fake a government order. |
-| 5 | Compound Disruption Score | Disruption Score >7.0 sustained for 2+ hours, even if no single trigger above crosses its individual threshold | Composite: OpenWeatherMap (rain, temp, wind) + CPCB AQI + Google Maps Routes API (traffic delay index) | ₹300 | 10mm/hr rain + AQI 350 + 2x traffic congestion = 60-70% earnings drop even though no single trigger fires. This is how income loss actually works for delivery workers. No other insurance product models compound disruption. |
+| #   | Trigger                   | Threshold                                                                                                                   | Source (API + field)                                                                                                 | Payout                   | Justification                                                                                                                                                                                                                                                                     |
+| --- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Heavy Rainfall            | >30mm cumulative in 3 consecutive hours, within worker's 5km GPS zone                                                       | OpenWeatherMap One Call API, `hourly.rain.1h` field, polled every 30 min per active zone                             | ₹300 (2.5 hrs x ₹120/hr) | IMD defines 30mm/3hr as the lower bound of heavy rain requiring public advisories. Below 30mm deliveries slow but continue. At 30mm+ platforms mark zones as reduced serviceability. This is the operational inflection point.                                                    |
+| 2   | Extreme Heat              | `feels_like` >43°C for 3+ consecutive hours within 11am-4pm                                                                 | OpenWeatherMap current weather endpoint, `feels_like` field, polled hourly per city                                  | ₹360 (3 hrs x ₹120/hr)   | ILO defines 43°C wet-bulb equivalent as dangerous heat stress for outdoor workers. NDMA issued India's first gig worker heat advisory (July 2025) using this threshold. The 11am-4pm window targets the lunch surge; losing this window eliminates the day's second income spike. |
+| 3   | Severe AQI                | AQI >400 (CPCB Severe) for 4+ consecutive hours, confirmed by at least 2 monitoring stations                                | CPCB AQI API via data.gov.in (free, hourly, station-level) + WAQI API as fallback                                    | ₹240 (2 hrs x ₹120/hr)   | Below 400 riders operate with discomfort. Above 400 GRAP Stage IV activates in Delhi NCR with vehicle restrictions and outdoor activity advisories. 2-station confirmation prevents a single faulty sensor from triggering payouts across a zone.                                 |
+| 4   | Government Curfew / Bandh | State or district confirmed curfew, Section 144 order, or bandh advisory covering worker's city for 3+ hours during 8am-9pm | State government alert portals (Karnataka, Maharashtra, UP, Bihar, Telangana) + NDMA advisory API cross-verification | ₹480 (4 hrs x ₹120/hr)   | Platforms halt operations during confirmed Section 144 orders. Government advisory is objective, auditable, and public. Fraud on this trigger is structurally impossible because a worker cannot create or fake a government order.                                               |
+| 5   | Compound Disruption Score | Disruption Score >7.0 sustained for 2+ hours, even if no single trigger above crosses its individual threshold              | Composite: OpenWeatherMap (rain, temp, wind) + CPCB AQI + Google Maps Routes API (traffic delay index)               | ₹300                     | 10mm/hr rain + AQI 350 + 2x traffic congestion = 60-70% earnings drop even though no single trigger fires. This is how income loss actually works for delivery workers. No other insurance product models compound disruption.                                                    |
 
 **Compound Disruption Score formula:**
 
@@ -144,13 +142,13 @@ Each factor is normalised on a 0-10 scale. Weights `w1` through `w4` are learned
 
 ### Cap Rules
 
-| Rule | Detail |
-|---|---|
-| **Maximum payouts per week** | 2 trigger payouts per worker per week |
-| **Weekly payout ceiling** | Total weekly payout capped at 55% of the worker's 4-week rolling earnings baseline |
-| **Overlapping triggers** | If two triggers overlap in the same time window, only the higher-value trigger fires |
-| **Payout timing** | Released within 2 hours of trigger confirmation, via UPI |
-| **Activity requirement** | Worker must have been active on the delivery platform in the 2 hours preceding the trigger, verified via GPS activity logs |
+| Rule                         | Detail                                                                                                                     |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **Maximum payouts per week** | 2 trigger payouts per worker per week                                                                                      |
+| **Weekly payout ceiling**    | Total weekly payout capped at 55% of the worker's 4-week rolling earnings baseline                                         |
+| **Overlapping triggers**     | If two triggers overlap in the same time window, only the higher-value trigger fires                                       |
+| **Payout timing**            | Released within 2 hours of trigger confirmation, via UPI                                                                   |
+| **Activity requirement**     | Worker must have been active on the delivery platform in the 2 hours preceding the trigger, verified via GPS activity logs |
 
 ---
 
@@ -164,14 +162,14 @@ The base premium is derived actuarially. Every number below is shown in full.
 
 Not every worker faces every trigger. AQI is heavily concentrated in Delhi NCR and parts of North India. Extreme heat above 43°C is specific to the north and central belt (Delhi, UP, Rajasthan, Bihar, MP, Nagpur), while coastal and southern metros rarely cross this threshold. The averages below reflect geographic concentration.
 
-| Trigger | Events/year (weighted avg) |
-|---|---|
-| Heavy Rainfall | 4 |
-| Extreme Heat | 3 |
-| Severe AQI | 2 (Delhi-weighted) |
-| Government Curfew/Bandh | 1 |
-| Compound Disruption Score | 3 |
-| **Total** | **13 events/year** |
+| Trigger                   | Events/year (weighted avg) |
+| ------------------------- | -------------------------- |
+| Heavy Rainfall            | 4                          |
+| Extreme Heat              | 3                          |
+| Severe AQI                | 2 (Delhi-weighted)         |
+| Government Curfew/Bandh   | 1                          |
+| Compound Disruption Score | 3                          |
+| **Total**                 | **13 events/year**         |
 
 **Step 2: Expected weekly loss**
 
@@ -190,7 +188,7 @@ Add 23% operating load = ₹129.23 × 1.23 = ₹158.96/week
 Rounded for market     = ₹159/week
 ```
 
-**Affordability check:** ₹159/week is 2.2% of a ₹7,200/week earner's gross income. This is below the 2.5% affordability ceiling that micro-insurance research identifies as the adoption threshold for low-income populations.
+**Affordability check:** The ₹159 base rate applies before XGBoost personalisation. At ₹7,200/week (typical for a full-time worker in Mumbai or Delhi), ₹159 is 2.2% of gross income, below the 2.5% micro-insurance affordability ceiling. Rajan earns ₹5,750/week (₹23,000 ÷ 4). After XGBoost adjustment for Bengaluru and a low-disruption month, his personalised premium would be ₹97–₹120/week which is 1.7% to 2.1% of his earnings, well within the threshold. The model ensures no worker is priced above their affordability band.
 
 ---
 
@@ -200,15 +198,15 @@ Rounded for market     = ₹159/week
 
 Earnings baseline: ₹8,400/week (₹1,200/day x 7 active days). Rating: 4.7. Zone flood risk score: 0.82 (Andheri East historically floods 6-8 times per year per BMC/MCGM data). Weekly hours: 62.
 
-| Adjustment Factor | Value | Multiplier | Running Premium |
-|---|---|---|---|
-| Base premium | - | - | ₹159 |
-| City risk (Mumbai = High) | High | ×1.20 | ₹191 |
-| Season (July = peak monsoon) | Peak | ×1.25 | ₹239 |
-| Zone flood risk score | 0.82 | ×1.10 | ₹262 |
-| Platform rating | 4.7 | ×0.95 | ₹249 |
-| Weekly hours (62 = high exposure) | 62 hrs | ×1.05 | ₹262 |
-| Claims history (0 prior) | 0 | ×0.92 | **₹241** |
+| Adjustment Factor                 | Value  | Multiplier | Running Premium |
+| --------------------------------- | ------ | ---------- | --------------- |
+| Base premium                      | -      | -          | ₹159            |
+| City risk (Mumbai = High)         | High   | ×1.20      | ₹191            |
+| Season (July = peak monsoon)      | Peak   | ×1.25      | ₹239            |
+| Zone flood risk score             | 0.82   | ×1.10      | ₹262            |
+| Platform rating                   | 4.7    | ×0.95      | ₹249            |
+| Weekly hours (62 = high exposure) | 62 hrs | ×1.05      | ₹262            |
+| Claims history (0 prior)          | 0      | ×0.92      | **₹241**        |
 
 **Vikram's weekly premium: ₹240** (rounded). This is 2.9% of his ₹8,400 weekly earnings, below the 3% affordability ceiling.
 
@@ -220,15 +218,15 @@ Earnings baseline: ₹8,400/week (₹1,200/day x 7 active days). Rating: 4.7. Zo
 
 Earnings baseline: ₹4,800/week (₹800/day x 6 active days). Rating: 3.8. Zone flood risk score: 0.21. Weekly hours: 36.
 
-| Adjustment Factor | Value | Multiplier | Running Premium |
-|---|---|---|---|
-| Base premium | - | - | ₹159 |
-| City risk (Hyderabad = Medium) | Medium | ×0.90 | ₹143 |
-| Season (February = dry/low risk) | Low | ×0.80 | ₹114 |
-| Zone flood risk score | 0.21 | ×0.92 | ₹105 |
-| Platform rating | 3.8 | ×1.00 | ₹105 |
-| Weekly hours (36 = lower exposure) | 36 hrs | ×0.95 | ₹100 |
-| Claims history (0 prior) | 0 | ×0.97 | **₹97** |
+| Adjustment Factor                  | Value  | Multiplier | Running Premium |
+| ---------------------------------- | ------ | ---------- | --------------- |
+| Base premium                       | -      | -          | ₹159            |
+| City risk (Hyderabad = Medium)     | Medium | ×0.90      | ₹143            |
+| Season (February = dry/low risk)   | Low    | ×0.80      | ₹114            |
+| Zone flood risk score              | 0.21   | ×0.92      | ₹105            |
+| Platform rating                    | 3.8    | ×1.00      | ₹105            |
+| Weekly hours (36 = lower exposure) | 36 hrs | ×0.95      | ₹100            |
+| Claims history (0 prior)           | 0      | ×0.97      | **₹97**         |
 
 **Suresh's weekly premium: ₹97.** This is 2.0% of his ₹4,800 weekly earnings.
 
@@ -240,21 +238,21 @@ Earnings baseline: ₹4,800/week (₹800/day x 6 active days). Rating: 3.8. Zone
 
 GigShield uses four distinct machine learning models, each with a named purpose, specific input features, and a defined retraining schedule.
 
-### Model 1: XGBoost Gradient Boosted Trees — Dynamic Premium Engine
+### Model 1: XGBoost Gradient Boosted Trees for Dynamic Premium Engine
 
 **Purpose:** Calculates the premium multiplier applied to the ₹159 base for each worker.
 
 **Input features (7):**
 
-| Feature | Type | Source |
-|---|---|---|
-| `city` | One-hot encoded categorical | Worker onboarding form |
-| `month` | Integer 1-12 | System date |
-| `worker_weekly_baseline_inr` | Float | 4-week exponentially weighted rolling average of earnings |
-| `zone_flood_risk_score` | Float 0-1 | GIS flood risk data (BMC/MCGM, BBMP, MCD sources) |
-| `zone_aqi_risk_score` | Float 0-1 | Historical CPCB AQI frequency data for the zone |
-| `platform_rating` | Float 1-5 | Swiggy/Zomato partner rating (self-reported, validated) |
-| `avg_weekly_hours_logged` | Integer | Platform activity data |
+| Feature                      | Type                        | Source                                                    |
+| ---------------------------- | --------------------------- | --------------------------------------------------------- |
+| `city`                       | One-hot encoded categorical | Worker onboarding form                                    |
+| `month`                      | Integer 1-12                | System date                                               |
+| `worker_weekly_baseline_inr` | Float                       | 4-week exponentially weighted rolling average of earnings |
+| `zone_flood_risk_score`      | Float 0-1                   | GIS flood risk data (BMC/MCGM, BBMP, MCD sources)         |
+| `zone_aqi_risk_score`        | Float 0-1                   | Historical CPCB AQI frequency data for the zone           |
+| `platform_rating`            | Float 1-5                   | Swiggy/Zomato partner rating (self-reported, validated)   |
+| `avg_weekly_hours_logged`    | Integer                     | Platform activity data                                    |
 
 **Output:** Premium multiplier (float, bounded 0.5 to 2.0) applied to ₹159 base.
 
@@ -264,7 +262,7 @@ GigShield uses four distinct machine learning models, each with a named purpose,
 
 ---
 
-### Model 2: Isolation Forest — Fraud Detection (Unsupervised)
+### Model 2: Isolation Forest for Fraud Detection
 
 **Purpose:** Flags workers whose claim patterns deviate from zone peers, without requiring labelled fraud examples.
 
@@ -274,7 +272,7 @@ GigShield uses four distinct machine learning models, each with a named purpose,
 
 ---
 
-### Model 3: Gradient Boosted Trees — Disruption Score Engine
+### Model 3: Gradient Boosted Trees for Disruption Score Engine
 
 **Purpose:** Calculates the real-time Compound Disruption Score that powers Trigger 5 and the SmartShift Advisor.
 
@@ -286,7 +284,7 @@ GigShield uses four distinct machine learning models, each with a named purpose,
 
 ---
 
-### Model 4: LSTM — SmartShift Shift Quality Forecast
+### Model 4: LSTM for SmartShift Shift Quality Forecast
 
 **Purpose:** Predicts disruption probability per 4-hour shift block over the next 48 hours.
 
@@ -300,12 +298,12 @@ GigShield uses four distinct machine learning models, each with a named purpose,
 
 The models are not static. Accuracy improves structurally over time:
 
-| Phase | Timeline | What Changes |
-|---|---|---|
-| Cold start | Week 1-4 | Community-rated pricing using city + season only. No individual history available. |
-| Pattern recognition | Week 5-12 | Individual claim history incorporated into XGBoost features. Claim-free workers receive 5% discount. Workers with 2+ claims flagged for fraud review. |
-| Full personalisation | Month 4+ | Model retrains monthly on actual trigger frequency versus predicted frequency, claim-to-trigger ratio (fraud signal), and worker churn data (are premiums too high?). |
-| Continuous | Ongoing | Bayesian updating of zone risk scores using real claims frequency. A zone scored 0.40 that triggers 8 payouts in 6 weeks automatically updates to 0.71 at the next Sunday refit. |
+| Phase                | Timeline  | What Changes                                                                                                                                                                     |
+| -------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cold start           | Week 1-4  | Community-rated pricing using city + season only. No individual history available.                                                                                               |
+| Pattern recognition  | Week 5-12 | Individual claim history incorporated into XGBoost features. Claim-free workers receive 5% discount. Workers with 2+ claims flagged for fraud review.                            |
+| Full personalisation | Month 4+  | Model retrains monthly on actual trigger frequency versus predicted frequency, claim-to-trigger ratio (fraud signal), and worker churn data (are premiums too high?).            |
+| Continuous           | Ongoing   | Bayesian updating of zone risk scores using real claims frequency. A zone scored 0.40 that triggers 8 payouts in 6 weeks automatically updates to 0.71 at the next Sunday refit. |
 
 ---
 
@@ -361,15 +359,15 @@ GigShield does not just pay out after disruptions. It actively helps workers avo
 
 The SmartShift Advisor runs the Disruption Score model (Model 3) on 48-hour weather and AQI forecast data and sends each worker a daily shift advisory notification, colour-coded by predicted disruption risk:
 
-| Colour | Meaning | Recommendation |
-|---|---|---|
-| **GREEN** | High earnings expected, low disruption probability | Work this shift |
-| **YELLOW** | Moderate disruption risk, earnings may be reduced | Your call |
-| **RED** | Disruption payout likely (>70% probability) | Consider staying home |
+| Colour     | Meaning                                            | Recommendation        |
+| ---------- | -------------------------------------------------- | --------------------- |
+| **GREEN**  | High earnings expected, low disruption probability | Work this shift       |
+| **YELLOW** | Moderate disruption risk, earnings may be reduced  | Your call             |
+| **RED**    | Disruption payout likely (>70% probability)        | Consider staying home |
 
 **Example notification (WhatsApp or push):**
 
-> Tomorrow 6AM-10AM is GREEN (predicted earnings ₹600-800). 2PM-6PM is RED (heavy rain + AQI spike predicted, 78% payout probability). Recommendation: work morning, skip afternoon.
+> Tomorrow 6AM-10AM is GREEN (predicted earnings ₹400-480). 2PM-6PM is RED (heavy rain + AQI spike predicted, 78% payout probability). Recommendation: work morning, skip afternoon.
 
 **Strategic value for the insurer:** SmartShift reduces GigShield's claim payouts by approximately 15% because workers proactively avoid disrupted shifts. The insurer saves money on claims. The worker earns more by reallocating hours to non-disrupted windows. No insurance product has ever told its policyholder how to avoid needing a claim. GigShield flips the insurance paradigm from reactive compensation to proactive income optimisation.
 
@@ -384,7 +382,8 @@ The GigShield admin dashboard provides four capabilities for the insurance carri
 The Disruption Score engine (Model 3) runs on 7-day weather and AQI forecasts to predict next week's payout liability by city and trigger type.
 
 **Example output:**
-> *Next week: 340 rain trigger payouts expected in Mumbai (monsoon forecast). 12 AQI trigger payouts in Delhi. Estimated total payout liability: ₹1,42,000.*
+
+> _Next week: 340 rain trigger payouts expected in Mumbai (monsoon forecast), 12 AQI trigger payouts in Delhi, and 120 Compound Disruption Score payouts across both cities. Estimated total payout liability: ₹1,42,000._
 
 This allows the carrier to pre-position liquidity rather than reacting to claims after the fact.
 
@@ -392,7 +391,7 @@ This allows the carrier to pre-position liquidity rather than reacting to claims
 
 Based on the predictive claims forecast plus a safety margin:
 
-> *Recommended reserve for next week: ₹1,85,000 (includes 30% safety margin above forecast liability).*
+> _Recommended reserve for next week: ₹1,85,000 (includes 30% safety margin above forecast liability)._
 
 The 30% margin accounts for forecast error and potential compound trigger scenarios not captured by individual trigger predictions.
 
@@ -404,9 +403,9 @@ A city-level map where each zone is coloured by deviation between actual claim r
 
 Each worker sees a weekly value summary, delivered via WhatsApp or the app dashboard:
 
-> *This week you were protected against ₹1,050 in potential income loss. You earned ₹5,250 instead of ₹4,200. Since joining GigShield 8 weeks ago: ₹4,800 protected total. ₹720 paid in premiums. GigShield ROI: 6.7x.*
+> _This week you were protected against ₹1,050 in potential income loss. You earned ₹5,250 instead of ₹4,200. Since joining GigShield 8 weeks ago: ₹4,800 protected total. ₹776 paid in premiums. GigShield ROI: 6.2x._
 
-This makes the product's value visible every week, even in weeks with zero claims. Workers who see a 6.7x return on their premium do not lapse.
+This makes the product's value visible every week, even in weeks with zero claims. Workers who see a 6.2x return on their premium do not lapse.
 
 ---
 
@@ -450,11 +449,11 @@ No primary insurer can absorb this exposure concentration without reinsurance su
 
 ### Reinsurance Structure
 
-| Layer | Coverage | Detail |
-|---|---|---|
-| **Retention** | First ₹50 lakhs per event | Primary insurer retains this layer from operating reserves |
-| **Catastrophe excess-of-loss (Cat XL)** | ₹50 lakhs to ₹5 crore per event | Reinsurer covers this layer, triggered when aggregate event payouts exceed ₹50 lakhs |
-| **Aggregate stop-loss** | Annual total payouts capped at 150% of annual premium income | Protects the carrier against a year with abnormally high trigger frequency across all cities |
+| Layer                                   | Coverage                                                     | Detail                                                                                       |
+| --------------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| **Retention**                           | First ₹50 lakhs per event                                    | Primary insurer retains this layer from operating reserves                                   |
+| **Catastrophe excess-of-loss (Cat XL)** | ₹50 lakhs to ₹5 crore per event                              | Reinsurer covers this layer, triggered when aggregate event payouts exceed ₹50 lakhs         |
+| **Aggregate stop-loss**                 | Annual total payouts capped at 150% of annual premium income | Protects the carrier against a year with abnormally high trigger frequency across all cities |
 
 This three-layer structure is standard for parametric weather products globally. Swiss Re, Munich Re, and SCOR all offer Cat XL capacity for parametric triggers with objective data sources, and India's own GIC Re has reinsured weather-index agricultural products under similar structures.
 
@@ -574,55 +573,30 @@ sequenceDiagram
 
 ## 14. Tech Stack
 
-| Layer | Technology | Rationale |
-|---|---|---|
-| **Backend** | Python + FastAPI | Async-first, native ML model serving, fast prototyping |
-| **Frontend** | Next.js + Tailwind CSS | Responsive PWA, SSR for SEO, no app install required for delivery workers |
-| **ML: Premium pricing** | XGBoost via `xgboost` library | Tabular data native, interpretable via SHAP, trains on small datasets |
-| **ML: Fraud detection** | scikit-learn Isolation Forest | Unsupervised, no labelled fraud data needed at launch |
-| **ML: Disruption Score** | Gradient Boosted Trees (`xgboost`) | Same library as pricing, captures non-linear interaction terms |
-| **ML: Shift forecast** | TensorFlow/Keras LSTM | Sequence-to-sequence on 48-hour forecast windows |
-| **Weather API** | OpenWeatherMap One Call 3.0 | Free tier: 1,000 calls/day, hourly granularity, `rain.1h` and `feels_like` fields |
-| **AQI API** | CPCB via data.gov.in + WAQI fallback | Free, hourly, station-level. 300+ monitoring stations across India |
-| **Social disruption** | State government alert feeds + NDMA | Government advisory portals (Karnataka, Maharashtra, UP, Bihar, Telangana) |
-| **Payment simulation** | Razorpay Sandbox | Free test mode, UPI simulation for demo |
-| **Database** | PostgreSQL via Supabase | Free tier, ACID compliant, relational schema for policies/claims/workers |
-| **Maps** | Leaflet.js + OpenStreetMap | Free, no API key for base maps. Zone risk heatmap overlay. |
-| **Hosting** | Vercel (frontend) + Railway (backend) | Free tiers, one-click deploy, suitable for hackathon demo |
-| **Insurance platform** | Guidewire InsuranceSuite | PolicyCenter, ClaimCenter, BillingCenter for production-grade policy lifecycle |
+| Layer                    | Technology                            | Rationale                                                                         |
+| ------------------------ | ------------------------------------- | --------------------------------------------------------------------------------- |
+| **Backend**              | Python + FastAPI                      | Async-first, native ML model serving, fast prototyping                            |
+| **Frontend**             | Next.js + Tailwind CSS                | Responsive PWA, SSR for SEO, no app install required for delivery workers         |
+| **ML: Premium pricing**  | XGBoost via `xgboost` library         | Tabular data native, interpretable via SHAP, trains on small datasets             |
+| **ML: Fraud detection**  | scikit-learn Isolation Forest         | Unsupervised, no labelled fraud data needed at launch                             |
+| **ML: Disruption Score** | Gradient Boosted Trees (`xgboost`)    | Same library as pricing, captures non-linear interaction terms                    |
+| **ML: Shift forecast**   | TensorFlow/Keras LSTM                 | Sequence-to-sequence on 48-hour forecast windows                                  |
+| **Weather API**          | OpenWeatherMap One Call 3.0           | Free tier: 1,000 calls/day, hourly granularity, `rain.1h` and `feels_like` fields |
+| **AQI API**              | CPCB via data.gov.in + WAQI fallback  | Free, hourly, station-level. 300+ monitoring stations across India                |
+| **Social disruption**    | State government alert feeds + NDMA   | Government advisory portals (Karnataka, Maharashtra, UP, Bihar, Telangana)        |
+| **Platform APIs**        | Swiggy/Zomato mock API (simulated)    | Worker GPS activity, order count, and platform rating from simulated platform API |
+| **Payment simulation**   | Razorpay Sandbox                      | Free test mode, UPI simulation for demo                                           |
+| **Database**             | PostgreSQL via Supabase               | Free tier, ACID compliant, relational schema for policies/claims/workers          |
+| **Maps**                 | Leaflet.js + OpenStreetMap            | Free, no API key for base maps. Zone risk heatmap overlay.                        |
+| **Hosting**              | Vercel (frontend) + Railway (backend) | Free tiers, one-click deploy, suitable for hackathon demo                         |
+| **Insurance platform**   | Guidewire InsuranceSuite              | PolicyCenter, ClaimCenter, BillingCenter for production-grade policy lifecycle    |
 
 **Total estimated cost for hackathon build: ₹0.** All APIs and hosting operate on free tiers.
 
 ---
 
-## 15. Development Plan
-
-| Phase | Timeline | Deliverables |
-|---|---|---|
-| **Phase 1: Ideation** | March 4-20 (current) | This README.md pushed to public GitHub repo. 2-minute video uploaded. |
-| **Phase 2: Build Core** | March 21 - April 4 | |
-| Week 2 | March 21-27 | Worker onboarding flow, XGBoost premium engine, Supabase schema (workers, policies, claims, payouts tables) |
-| Week 3 | March 28 - April 3 | Real-time Disruption Score engine, trigger monitoring service polling APIs every 30 min, SafeZone risk map (Leaflet.js heatmap overlay) |
-| Week 4 | April 4-10 | Automatic claim initiation via ClaimCenter integration, Razorpay sandbox payout flow, SmartShift Advisor with LSTM forecast |
-| **Phase 3: Scale** | April 5-17 | |
-| Week 5 | April 11-14 | Advanced fraud detection: GPS validation + Isolation Forest deployment + zone correlation check. Worker dashboard with earnings forecast. |
-| Week 6 | April 15-17 | Insurer admin dashboard with predictive claims forecast + fraud heatmap. 5-minute demo video. Final pitch deck. |
-
----
-
-## 16. Deliverables Checklist
-
-- [x] README.md pushed to public GitHub repository
-- [x] Repository is public (inaccessible link = invalid submission per rulebook)
-- [ ] 2-minute video uploaded to YouTube (unlisted) or Google Drive (public link)
-- [ ] Both links included in README
-
----
-
 <div align="center">
 
-**GigShield** | Guidewire DEVTrails 2026 | Phase 1 Ideation
-
-*When external disruptions wipe out a delivery worker's earning day, GigShield pays automatically. No paperwork. No waiting. No gaps.*
+**GigShield** | Guidewire DEVTrails 2026
 
 </div>
