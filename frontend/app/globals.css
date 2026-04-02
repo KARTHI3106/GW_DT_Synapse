@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 15 23 42;
+    --foreground: 248 250 252;
+    --card: 30 41 59;
+    --card-foreground: 248 250 252;
+    --primary: 99 102 241;
+    --primary-foreground: 255 255 255;
+    --muted: 100 116 139;
+    --muted-foreground: 148 163 184;
+    --border: 51 65 85;
+    --radius-card: 12px;
+    --radius-button: 8px;
+    --radius-input: 6px;
+  }
+
+  * {
+    border-color: rgb(var(--border));
+  }
+
+  body {
+    @apply bg-surface text-text-primary font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: rgba(99, 102, 241, 0.3);
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0f172a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6366f1;
+  }
+}
+
+@layer components {
+  /* Glassmorphism card */
+  .card-glass {
+    @apply bg-surface-card/80 backdrop-blur-sm border border-surface-border rounded-card
+           shadow-card transition-all duration-200;
+  }
+
+  .card-glass:hover {
+    @apply border-surface-border-active shadow-glow-indigo;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-300 bg-clip-text text-transparent;
+  }
+
+  /* Glowing active indicator */
+  .status-active {
+    @apply text-status-success bg-status-success-bg border border-status-success/30
+           px-3 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .status-paused {
+    @apply text-status-warning bg-status-warning-bg border border-status-warning/30
+           px-3 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .status-expired {
+    @apply text-status-danger bg-status-danger-bg border border-status-danger/30
+           px-3 py-1 rounded-full text-xs font-semibold;
+  }
+
+  /* Policy number monospace display */
+  .policy-number {
+    @apply font-mono text-brand-primary tracking-wider;
+  }
+
+  /* Trigger alert pulse */
+  .trigger-alert {
+    @apply animate-pulse-glow border border-brand-primary/40 bg-brand-primary-glow;
+  }
+
+  /* Progress bar base */
+  .progress-bar {
+    @apply h-2 rounded-full overflow-hidden bg-surface;
+  }
+
+  .progress-bar-fill {
+    @apply h-full rounded-full transition-all duration-700;
+  }
+
+  /* Skeleton loading */
+  .skeleton {
+    @apply bg-surface-card animate-pulse rounded-md;
+  }
+
+  /* Touch target minimum */
+  .touch-target {
+    @apply min-h-12 min-w-12;
+  }
+
+  /* WhatsApp-style claim card */
+  .claim-card {
+    @apply card-glass p-4 my-2 relative overflow-hidden;
+  }
+
+  .claim-card::before {
+    content: '';
+    @apply absolute left-0 top-0 bottom-0 w-1;
+  }
+
+  .claim-card.paid::before {
+    @apply bg-status-success;
+  }
+
+  .claim-card.pending::before {
+    @apply bg-status-warning;
+  }
+
+  .claim-card.flagged::before {
+    @apply bg-status-danger;
+  }
+
+  /* SmartShift traffic light */
+  .traffic-light {
+    @apply w-4 h-4 rounded-full;
+  }
+
+  .traffic-light.green {
+    @apply bg-status-success shadow-glow-emerald;
+  }
+
+  .traffic-light.amber {
+    @apply bg-status-warning;
+  }
+
+  .traffic-light.red {
+    @apply bg-status-danger shadow-glow-rose;
+  }
+}
+
+@layer utilities {
+  /* Noise texture overlay for depth */
+  .noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  /* Gradient border */
+  .border-gradient {
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    background-image: linear-gradient(#1e293b, #1e293b),
+                      linear-gradient(135deg, rgba(99,102,241,0.4), rgba(139,92,246,0.2));
+    background-origin: border-box;
+  }
+}

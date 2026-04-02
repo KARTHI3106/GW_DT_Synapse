@@ -1,0 +1,343 @@
+'use client'
+
+import { useEffect, useState, useCallback } from 'react'
+import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import {
+  Shield,
+  CloudRain,
+  Thermometer,
+  Wind,
+  AlertTriangle,
+  Cloud,
+  FileText,
+  Settings,
+} from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { PolicyCard } from '@/components/policy-card'
+import { PremiumBreakdown } from '@/components/premium-breakdown'
+import { policiesApi, premiumsApi, claimsApi } from '@/lib/api'
+
+interface Worker {
+  id: string
+  name: string
+  city: string
+  zone: string
+  platform: string
+  rating: number
+  active_policy?: Policy
+}
+
+interface Policy {
+  id: string
+  policy_number: string
+  status: 'active' | 'paused' | 'expired' | 'cancelled'
+  start_date: string
+  end_date: string
+  weekly_premium: number
+  coverage_amount: number
+  claims_count?: number
+  total_payout?: number
+  worker_name?: string
+  worker_city?: string
+}
+
+const TRIGGER_ICONS = {
+  heavy_rainfall: CloudRain,
+  extreme_heat: Thermometer,
+  severe_aqi: Wind,
+  government_bandh: AlertTriangle,
+  compound_disruption: Cloud,
+}
+
+const TRIGGER_LABELS: Record<string, string> = {
+  heavy_rainfall: 'Heavy Rain',
+  extreme_heat: 'Extreme Heat',
+  severe_aqi: 'Poor AQI',
+  government_bandh: 'Bandh',
+  compound_disruption: 'Compound',
+}
+
+const TRIGGER_PAYOUTS: Record<string, number> = {
+  heavy_rainfall: 300,
+  extreme_heat: 360,
+  severe_aqi: 240,
+  government_bandh: 480,
+  compound_disruption: 300,
+}
+
+export default function DashboardPage() {
+  const params = useSearchParams()
+  const workerId = params.get('worker_id')
+
+  const [worker, setWorker] = useState<Worker | null>(null)
+  const [policy, setPolicy] = useState<Policy | null>(null)
+  const [breakdown, setBreakdown] = useState<object | null>(null)
+  const [claims, setClaims] = useState<object[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [renewLoading, setRenewLoading] = useState(false)
+
+  const fetchData = useCallback(async () => {
+    if (!workerId || workerId === 'demo') {
+      setLoading(false)
+      return
+    }
+
+    try {
+      const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+
+      // Fetch worker
+      const workerRes = await fetch(`${API}/api/v1/workers/${workerId}`)
+      if (!workerRes.ok) throw new Error('Worker not found')
+      const workerData = await workerRes.json() as Worker
+      setWorker(workerData)
+
+      // Fetch policy
+      const policyRes = await fetch(`${API}/api/v1/policies/${workerId}`)
+      if (policyRes.ok) {
+        const policyData = await policyRes.json() as Policy
+        setPolicy(policyData)
+      }
+
+      // Fetch premium breakdown
+      const breakdownRes = await fetch(`${API}/api/v1/premiums/${workerId}/breakdown`)
+      if (breakdownRes.ok) {
+        setBreakdown(await breakdownRes.json())
+      }
+
+      // Fetch claims
+      const claimsRes = await fetch(`${API}/api/v1/claims/${workerId}`)
+      if (claimsRes.ok) {
+        setClaims(await claimsRes.json() as object[])
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load data')
+    } finally {
+      setLoading(false)
+    }
+  }, [workerId])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
+
+  const handleRenew = async (policyId: string) => {
+    setRenewLoading(true)
+    try {
+      const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+      await fetch(`${API}/api/v1/policies/${policyId}/renew`, { method: 'POST' })
+      fetchData()
+    } finally {
+      setRenewLoading(false)
+    }
+  }
+
+  const handlePause = async (policyId: string) => {
+    const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+    await fetch(`${API}/api/v1/policies/${policyId}/pause`, { method: 'POST' })
+    fetchData()
+  }
+
+  const handleResume = async (policyId: string) => {
+    const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+    await fetch(`${API}/api/v1/policies/${policyId}/resume`, { method: 'POST' })
+    fetchData()
+  }
+
+  if (!workerId || workerId === 'demo') {
+    return <DemoState />
+  }
+
+  if (!loading && error) {
+    return (
+      <div className="min-h-screen bg-surface flex items-center justify-center px-4">
+        <div className="text-center">
+          <Shield className="h-12 w-12 text-text-muted mx-auto mb-4" />
+          <h1 className="text-xl font-semibold text-text-primary mb-2">Worker not found</h1>
+          <p className="text-text-secondary text-sm mb-6">{error}</p>
+          <Link href="/register"><Button>Register Now</Button></Link>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-surface">
+      {/* Top bar */}
+      <nav className="border-b border-surface-border px-4 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="h-7 w-7 rounded-lg bg-brand-primary flex items-center justify-center">
+            <Shield className="h-4 w-4 text-white" />
+          </div>
+          <span className="font-bold text-text-primary">GigShield</span>
+        </div>
+        <div className="flex items-center gap-2">
+          {policy && (
+            <Badge variant={policy.status === 'active' ? 'success' : 'warning'}>
+              {policy.status === 'active' ? 'Active' : 'Inactive'}
+            </Badge>
+          )}
+          <Link href="/admin">
+            <Button variant="ghost" size="icon">
+              <Settings className="h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
+      </nav>
+
+      <div className="max-w-2xl mx-auto px-4 py-6 space-y-5">
+        {/* Worker greeting */}
+        {(loading || worker) && (
+          <div className="flex items-center justify-between">
+            <div>
+              {loading ? (
+                <>
+                  <div className="skeleton h-7 w-48 mb-1" />
+                  <div className="skeleton h-4 w-32" />
+                </>
+              ) : (
+                <>
+                  <h1 className="text-xl font-bold text-text-primary">
+                    Welcome, {worker?.name}
+                  </h1>
+                  <p className="text-sm text-text-secondary">
+                    {worker?.city} — {worker?.zone} • {worker?.platform}
+                  </p>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Policy card */}
+        <PolicyCard
+          policy={policy}
+          loading={loading}
+          onRenew={handleRenew}
+          onPause={handlePause}
+          onResume={handleResume}
+          renewLoading={renewLoading}
+        />
+
+        {/* Premium breakdown */}
+        <PremiumBreakdown breakdown={breakdown as any} loading={loading} />
+
+        {/* SmartShift — Today's Conditions */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Today&apos;s Conditions</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-3 gap-3 mb-4">
+              {['Rain', 'Heat', 'AQI'].map((label) => (
+                <div key={label} className="text-center">
+                  <div className="traffic-light green mx-auto mb-1.5" />
+                  <p className="text-xs text-text-muted">{label}</p>
+                  <p className="text-xs font-medium text-status-success">Clear</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-text-muted text-center">
+              All conditions normal • Safe to work in all zones today
+            </p>
+            <p className="text-[10px] text-text-muted/60 text-center mt-1">
+              Live data from OpenWeatherMap & WAQI — updates hourly
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Claims timeline */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle>Your Claims</CardTitle>
+              {claims.length > 0 && (
+                <Badge variant="default">{claims.length}</Badge>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              <div className="space-y-3">
+                {[1, 2].map((i) => <div key={i} className="skeleton h-16 rounded-card" />)}
+              </div>
+            ) : claims.length === 0 ? (
+              <div className="text-center py-8">
+                <Cloud className="h-10 w-10 text-text-muted mx-auto mb-3" />
+                <p className="text-sm text-text-secondary">No claims yet</p>
+                <p className="text-xs text-text-muted mt-1">
+                  We&apos;ll notify you the moment a trigger fires in your zone.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {(claims as any[]).map((claim) => (
+                  <ClaimRow key={claim.id} claim={claim} />
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
+}
+
+function ClaimRow({ claim }: { claim: any }) {
+  const Icon = TRIGGER_ICONS[claim.trigger_type as keyof typeof TRIGGER_ICONS] ?? FileText
+  const statusVariant =
+    claim.status === 'paid' ? 'success'
+    : claim.status === 'approved' ? 'success'
+    : claim.status === 'flagged' ? 'danger'
+    : 'warning'
+
+  return (
+    <div className={`claim-card ${claim.status}`}>
+      <div className="flex items-start gap-3">
+        <div className="h-9 w-9 rounded-lg bg-surface flex items-center justify-center flex-shrink-0">
+          <Icon className="h-4 w-4 text-text-secondary" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <p className="text-sm font-medium text-text-primary">
+              {TRIGGER_LABELS[claim.trigger_type] ?? claim.trigger_type}
+            </p>
+            <Badge variant={statusVariant} className="text-[10px]">
+              {claim.status}
+            </Badge>
+          </div>
+          <p className="text-xs text-text-muted mt-0.5">
+            {new Date(claim.trigger_timestamp).toLocaleDateString('en-IN')} • {claim.claim_number}
+          </p>
+        </div>
+        <div className="text-right flex-shrink-0">
+          <p className="text-sm font-bold text-status-success">+Rs.{claim.payout_amount}</p>
+          {claim.transaction_id && (
+            <p className="text-[10px] text-text-muted mt-0.5">Razorpay</p>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function DemoState() {
+  return (
+    <div className="min-h-screen bg-surface flex items-center justify-center px-4">
+      <div className="text-center max-w-sm">
+        <Shield className="h-14 w-14 text-brand-primary mx-auto mb-4" />
+        <h1 className="text-xl font-bold text-text-primary mb-2">GigShield Demo</h1>
+        <p className="text-text-secondary text-sm mb-6">
+          Register as a worker to see your personal dashboard with live premium calculation and claims.
+        </p>
+        <Link href="/register">
+          <Button className="w-full">Register Now</Button>
+        </Link>
+      </div>
+    </div>
+  )
+}
