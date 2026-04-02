@@ -229,7 +229,7 @@ export function RegistrationForm() {
                     label="Mobile Number"
                     type="tel"
                     placeholder="9876543210"
-                    prefix="+91"
+                    adornment="+91"
                     value={form.phone}
                     onChange={(e) => set('phone', e.target.value.replace(/\D/g, '').slice(0, 10))}
                     error={errors.phone}
@@ -348,7 +348,7 @@ export function RegistrationForm() {
                     label="Avg. Weekly Earnings (Rs.)"
                     type="number"
                     placeholder="6000"
-                    prefix="₹"
+                    adornment="₹"
                     min={1000}
                     max={15000}
                     value={form.baseline_weekly_earnings || ''}

@@ -4,11 +4,11 @@ import { cn } from '@/lib/utils'
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
   error?: string
-  prefix?: React.ReactNode
+  adornment?: React.ReactNode
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, error, prefix, id, ...props }, ref) => {
+  ({ className, type, label, error, adornment, id, ...props }, ref) => {
     return (
       <div className="w-full">
         {label && (
@@ -17,9 +17,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </label>
         )}
         <div className="relative">
-          {prefix && (
+          {adornment && (
             <div className="absolute inset-y-0 left-3 flex items-center text-text-muted text-sm">
-              {prefix}
+              {adornment}
             </div>
           )}
           <input
@@ -31,7 +31,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               'focus:outline-none focus:ring-2 focus:ring-brand-primary/50 focus:border-brand-primary',
               'disabled:cursor-not-allowed disabled:opacity-50',
               'transition-colors duration-150',
-              prefix && 'pl-10',
+              adornment && 'pl-10',
               error && 'border-status-danger focus:ring-status-danger/30',
               className
             )}

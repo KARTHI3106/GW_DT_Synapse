@@ -72,7 +72,21 @@ create table if not exists public.premium_history (
 );
 
 -- =============================================
--- 5. TRIGGER EVENTS (parametric trigger log)
+-- 5. DISRUPTION ZONES (geographic risk data) — must be before trigger_events
+-- =============================================
+create table if not exists public.disruption_zones (
+  id               uuid default gen_random_uuid() primary key,
+  city             text not null,
+  zone_name        text not null,
+  lat              numeric(10,6) not null,
+  lon              numeric(10,6) not null,
+  flood_risk_score numeric(3,2) check (flood_risk_score between 0 and 1) default 0.5,
+  aqi_risk_score   numeric(3,2) check (aqi_risk_score between 0 and 1) default 0.5,
+  unique (city, zone_name)
+);
+
+-- =============================================
+-- 6. TRIGGER EVENTS (parametric trigger log)
 -- =============================================
 create table if not exists public.trigger_events (
   id                    uuid default gen_random_uuid() primary key,
@@ -88,20 +102,6 @@ create table if not exists public.trigger_events (
   affected_workers_count integer default 0,
   event_hash            text unique,                -- dedup: type+city+date
   created_at            timestamptz default now()
-);
-
--- =============================================
--- 6. DISRUPTION ZONES (geographic risk data)
--- =============================================
-create table if not exists public.disruption_zones (
-  id               uuid default gen_random_uuid() primary key,
-  city             text not null,
-  zone_name        text not null,
-  lat              numeric(10,6) not null,
-  lon              numeric(10,6) not null,
-  flood_risk_score numeric(3,2) check (flood_risk_score between 0 and 1) default 0.5,
-  aqi_risk_score   numeric(3,2) check (aqi_risk_score between 0 and 1) default 0.5,
-  unique (city, zone_name)
 );
 
 -- =============================================
