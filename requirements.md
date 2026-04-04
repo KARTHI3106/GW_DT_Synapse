@@ -1,13 +1,13 @@
-# GigShield Phase 2 - Requirements Document
+# GottaGO Phase 2 - Requirements Document
 
 ## Project Overview
 
-**Project Name:** GigShield - Weekly Income Shield for Food Delivery Partners  
+**Project Name:** GottaGO - Weekly Income Protection for Food Delivery Partners  
 **Hackathon:** Guidewire DEVTrails 2026  
 **Deadline:** April 4, 2026  
 **Phase 2 Theme:** "Protect Your Worker"
 
-GigShield is India's first weekly income shield for food delivery partners (Swiggy/Zomato). It automatically pays workers when verified external disruptions (heavy rain, extreme heat, severe AQI, government bandh) destroy their earning day. Zero paperwork, zero claim forms.
+GottaGO is a weekly income protection product for food delivery partners (Swiggy/Zomato). It automatically pays workers when verified external disruptions (heavy rain, extreme heat, severe AQI, government bandh) destroy their earning day. Zero paperwork, zero claim forms.
 
 ## Phase 2 Mandatory Deliverables
 
@@ -63,7 +63,7 @@ GigShield is India's first weekly income shield for food delivery partners (Swig
 **Priority:** P0 (Must Have)
 
 **User Story:**  
-As a delivery worker, I want to register for GigShield coverage by providing my basic details, so that I can protect my weekly income from disruptions.
+As a delivery worker, I want to register for GottaGO coverage by providing my basic details, so that I can protect my weekly income from disruptions.
 
 **Acceptance Criteria:**
 - Form collects: full name, phone number, platform (Swiggy/Zomato), city, zone, worker ID, platform rating (1-5), average weekly hours, baseline weekly earnings

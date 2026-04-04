@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Worker Dashboard | GottaGO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-fixed": "#e1ecff",
+                        "on-error-container": "#ff9993",
+                        "on-primary-fixed": "#00445e",
+                        "secondary-dim": "#979eb1",
+                        "surface-tint": "#7bd0ff",
+                        "inverse-surface": "#faf9ff",
+                        "on-background": "#dde5ff",
+                        "surface-container-low": "#0c1323",
+                        "on-primary-container": "#97d8ff",
+                        "on-tertiary-container": "#4d5767",
+                        "tertiary-container": "#e1ecff",
+                        "on-surface-variant": "#9babd2",
+                        "on-secondary-fixed-variant": "#545b6d",
+                        "on-error": "#490106",
+                        "surface-variant": "#152545",
+                        "on-secondary-container": "#b8bfd3",
+                        "surface": "#090e19",
+                        "primary-dim": "#47c4ff",
+                        "on-surface": "#dde5ff",
+                        "surface-container-highest": "#152545",
+                        "primary-container": "#004c69",
+                        "primary-fixed": "#c4e7ff",
+                        "error-dim": "#bb5551",
+                        "on-primary-fixed-variant": "#006286",
+                        "inverse-primary": "#00668b",
+                        "tertiary": "#f8f9ff",
+                        "on-primary": "#004560",
+                        "secondary-fixed": "#dce2f7",
+                        "surface-dim": "#090e19",
+                        "on-secondary-fixed": "#383f50",
+                        "outline": "#667599",
+                        "surface-container-high": "#121f39",
+                        "surface-container-lowest": "#000000",
+                        "tertiary-fixed-dim": "#d3ddf0",
+                        "on-tertiary-fixed-variant": "#576171",
+                        "error-container": "#7f2927",
+                        "secondary-container": "#343b4c",
+                        "on-secondary": "#19202f",
+                        "primary-fixed-dim": "#a2dcff",
+                        "secondary": "#979eb1",
+                        "secondary-fixed-dim": "#ced4e9",
+                        "on-tertiary-fixed": "#3b4554",
+                        "tertiary-dim": "#d3ddf0",
+                        "outline-variant": "#384869",
+                        "surface-bright": "#172b51",
+                        "inverse-on-surface": "#505562",
+                        "primary": "#7bd0ff",
+                        "surface-container": "#0f192e",
+                        "background": "#000000",
+                        "on-tertiary": "#566070",
+                        "error": "#ee7d77",
+                        "success": "#4ade80"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    animation: {
+                        'pulse-glow': 'pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'slide-up': 'slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: 1, boxShadow: '0 0 15px -3px rgba(234, 179, 8, 0.3)' },
+                            '50%': { opacity: 0.7, boxShadow: '0 0 30px 2px rgba(234, 179, 8, 0.5)' },
+                        },
+                        'slide-up': {
+                            '0%': { opacity: 0, transform: 'translateY(20px)' },
+                            '100%': { opacity: 1, transform: 'translateY(0)' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #000000;
+            color: #dde5ff;
+            font-family: 'Inter', sans-serif;
+        }
+        .stagger-1 { animation-delay: 100ms; }
+        .stagger-2 { animation-delay: 200ms; }
+        .stagger-3 { animation-delay: 300ms; }
+        .stagger-4 { animation-delay: 400ms; }
+        .stagger-5 { animation-delay: 500ms; }
+        .stagger-6 { animation-delay: 600ms; }
+    </style>
+</head>
+<body class="antialiased">
+<!-- Top Navigation -->
+<nav class="bg-black/80 backdrop-blur-md text-[#7bd0ff] font-['Inter'] antialiased docked full-width top-0 sticky z-50 border-b border-outline-variant/10 flex justify-between items-center w-full px-6 py-4 max-w-none mx-auto">
+<div class="text-xl font-bold tracking-tight text-[#7bd0ff] hover:opacity-80 cursor-pointer transition-opacity">GottaGO</div>
+<div class="hidden md:flex gap-8">
+<a class="text-[#7bd0ff] font-semibold border-b-2 border-[#7bd0ff] pb-1 transition-all" href="#">Dashboard</a>
+<a class="text-[#9babd2] hover:text-[#dde5ff] transition-all" href="#">Assets</a>
+<a class="text-[#9babd2] hover:text-[#dde5ff] transition-all" href="#">Security</a>
+<a class="text-[#9babd2] hover:text-[#dde5ff] transition-all" href="#">Vault</a>
+<a class="text-[#9babd2] hover:text-[#dde5ff] transition-all" href="#">Activity</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#9babd2] hover:text-[#7bd0ff] hover:bg-[#121f39] p-2 rounded-full transition-all duration-300">notifications</button>
+<button class="material-symbols-outlined text-[#9babd2] hover:text-[#7bd0ff] hover:bg-[#121f39] p-2 rounded-full transition-all duration-300">settings</button>
+<img alt="User profile" class="w-8 h-8 rounded-full border border-outline-variant/20 hover:border-primary/50 cursor-pointer transition-all duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiF47OSUReiGaIvxcKuscX8m-Xih5-lsCX8BLz-hO_K7qjWSeftCmRiUVTyiYrzQT5c1K1eu7SAYzDpMNSJFF9Ej639sO6GHojX2xkOcQoo-1nREfeARsCK7tlZbFhTwbQ5aH7NlgSJY1KN3uEb3gSwQZO-5T6RRGU5k209BWe7b5dEns9z6JMWA2TOtGh6JXcyzD-dyQ1EmfgZG0lKTwO4tO9N0oG2YLAjuShOr3hUtKPtczuysuE348aZZ_YZsqh_KfQYrN_NOWu"/>
+</div>
+</nav>
+<main class="max-w-2xl mx-auto px-4 pb-32 pt-6">
+<!-- Header Section -->
+<header class="mb-8 animate-slide-up opacity-0">
+<h1 class="text-2xl font-bold text-on-surface mb-1">Welcome back, Marcus</h1>
+<p class="text-on-surface-variant text-sm">Your income protection is currently active and monitoring.</p>
+</header>
+<div class="mb-8 p-4 bg-amber-500/10 border border-amber-500/40 rounded-xl flex items-start gap-4 animate-pulse-glow animate-slide-up opacity-0 stagger-1">
+<span class="material-symbols-outlined text-[#eab308]">warning</span>
+<div>
+<h4 class="text-sm font-bold text-[#eab308] mb-1">High AQI Warning</h4>
+<p class="text-xs text-on-surface-variant">Active monitoring in Delhi-NCR. System-triggered verification protocol initiated based on local sensor data.</p>
+</div>
+</div>
+<!-- Policy Card -->
+<section class="mb-8 animate-slide-up opacity-0 stagger-2">
+<div class="bg-surface-container rounded-xl p-6 relative overflow-hidden border border-outline-variant/5 hover:border-primary/20 transition-all duration-500 group">
+<div class="flex justify-between items-start mb-6">
+<div>
+<p class="text-[10px] font-mono uppercase tracking-widest text-on-surface-variant mb-1">Policy Number</p>
+<h2 class="font-mono text-lg text-primary tracking-tight group-hover:text-primary-dim transition-colors">IS-9928-XBK-2024</h2>
+</div>
+<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 text-[#eab308] uppercase tracking-wider border border-[#eab308]/40 animate-pulse">DISRUPTION DETECTED</span>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-4">
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase mb-1">Monthly coverage</p>
+<p class="text-xl font-bold text-on-surface">$4,250.00</p>
+</div>
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase mb-1">Next premium</p>
+<p class="text-xl font-bold text-on-surface">Oct 12</p>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-outline-variant/10 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">shield</span>
+<span class="text-sm font-medium">Sovereign protection enabled</span>
+</div>
+</div>
+</section>
+<!-- Premium Breakdown Bento -->
+<section class="mb-10">
+<h3 class="text-lg font-semibold text-on-surface mb-4 animate-slide-up opacity-0 stagger-3">Premium breakdown</h3>
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-surface-container-low p-4 rounded-xl border border-transparent hover:border-outline-variant/20 transition-all duration-300 animate-slide-up opacity-0 stagger-3">
+<p class="text-[10px] text-on-surface-variant uppercase mb-2">Base risk</p>
+<p class="font-mono text-on-surface">$24.50</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl border border-transparent hover:border-outline-variant/20 transition-all duration-300 animate-slide-up opacity-0 stagger-4">
+<p class="text-[10px] text-on-surface-variant uppercase mb-2">Occupational</p>
+<p class="font-mono text-on-surface">$12.20</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl border border-transparent hover:border-outline-variant/20 transition-all duration-300 animate-slide-up opacity-0 stagger-5">
+<p class="text-[10px] text-on-surface-variant uppercase mb-2">Experience</p>
+<p class="font-mono text-success">-$5.00</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl border border-transparent hover:border-outline-variant/20 transition-all duration-300 animate-slide-up opacity-0 stagger-6">
+<p class="text-[10px] text-on-surface-variant uppercase mb-2">Geo-adjust</p>
+<p class="font-mono text-on-surface">$3.15</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl border border-transparent hover:border-outline-variant/20 transition-all duration-300 animate-slide-up opacity-0 stagger-1">
+<p class="text-[10px] text-on-surface-variant uppercase mb-2">Loyalty</p>
+<p class="font-mono text-success">-$2.40</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl border border-primary/20 bg-primary-container/10 hover:border-primary/40 transition-all duration-300 animate-slide-up opacity-0 stagger-2">
+<p class="text-[10px] text-primary uppercase mb-2">Total monthly</p>
+<p class="font-mono font-bold text-primary text-lg">$32.45</p>
+</div>
+</div>
+</section>
+<!-- Claims Timeline -->
+<section class="mb-10">
+<h3 class="text-lg font-semibold text-on-surface mb-6 animate-slide-up opacity-0 stagger-3">Active claim timeline</h3>
+<div class="space-y-0">
+<!-- AQI Trigger -->
+<div class="flex gap-4 animate-slide-up opacity-0 stagger-3">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-[#eab308] flex items-center justify-center z-10 shadow-[0_0_15px_rgba(234,179,8,0.4)]">
+<span class="material-symbols-outlined text-background text-sm">air</span>
+</div>
+<div class="w-0.5 h-12 bg-[#eab308]"></div>
+</div>
+<div class="flex-1 pb-8">
+<div class="bg-surface-container p-4 rounded-xl rounded-tl-none relative border border-[#eab308]/20 hover:border-[#eab308]/40 transition-all duration-300">
+<p class="text-xs font-bold text-[#eab308] mb-1">AQI Trigger Detected</p>
+<p class="text-sm text-on-surface-variant">Verification in progress. Threshold breach confirmed in residential zone.</p>
+<span class="absolute top-2 right-3 text-[10px] text-on-surface-variant/60 font-mono">10:45 AM</span>
+</div>
+</div>
+</div>
+<!-- Step 1 -->
+<div class="flex gap-4 animate-slide-up opacity-0 stagger-4">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center z-10"><span class="material-symbols-outlined text-on-primary text-sm">done</span></div>
+<div class="w-0.5 h-12 bg-primary"></div>
+</div>
+<div class="flex-1 pb-8">
+<div class="bg-surface-container p-4 rounded-xl rounded-tl-none relative hover:border-outline-variant/30 transition-all duration-300 border border-transparent">
+<p class="text-xs font-bold text-primary mb-1">Claim submitted</p>
+<p class="text-sm text-on-surface-variant">Documentation for injury INC-882 received and verified.</p>
+<span class="absolute top-2 right-3 text-[10px] text-on-surface-variant/60 font-mono">09:12 AM</span>
+</div>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex gap-4 animate-slide-up opacity-0 stagger-5">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-on-primary text-sm">medical_services</span>
+</div>
+<div class="w-0.5 h-12 bg-primary"></div>
+</div>
+<div class="flex-1 pb-8">
+<div class="bg-surface-container p-4 rounded-xl rounded-tl-none relative hover:border-outline-variant/30 transition-all duration-300 border border-transparent">
+<p class="text-xs font-bold text-primary mb-1">Medical review</p>
+<p class="text-sm text-on-surface-variant">Clinical assessment completed by sovereign medical board.</p>
+<span class="absolute top-2 right-3 text-[10px] text-on-surface-variant/60 font-mono">Yesterday</span>
+</div>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex gap-4 animate-slide-up opacity-0 stagger-6">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full border-2 border-primary bg-surface-container flex items-center justify-center z-10">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+</div>
+<div class="w-0.5 h-12 border-l-2 border-dashed border-outline-variant"></div>
+</div>
+<div class="flex-1 pb-8">
+<div class="bg-surface-container-high p-4 rounded-xl rounded-tl-none relative border border-primary/20 hover:border-primary/40 transition-all duration-300">
+<p class="text-xs font-bold text-on-surface mb-1">Awaiting employer verify</p>
+<p class="text-sm text-on-surface-variant">Pending work history confirmation from Logistics Corp.</p>
+<span class="absolute top-2 right-3 text-[10px] text-on-surface-variant/60 font-mono">Current</span>
+</div>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="flex gap-4 animate-slide-up opacity-0 stagger-6">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-surface-container-low border border-outline-variant flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-on-surface-variant text-sm">payments</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="opacity-40 p-4 transition-opacity hover:opacity-60 duration-300">
+<p class="text-xs font-bold text-on-surface-variant mb-1">Payout scheduled</p>
+<p class="text-sm text-on-surface-variant">Vault release pending final approval.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Action -->
+<button class="w-full bg-primary text-on-primary font-bold py-4 rounded-xl shadow-[0px_10px_40px_-10px_rgba(56,189,248,0.3)] hover:shadow-[0px_10px_50px_-5px_rgba(56,189,248,0.5)] hover:scale-[0.99] active:scale-95 transition-all duration-300 animate-slide-up opacity-0 stagger-6">
+            File new assistance claim
+        </button>
+</main>
+<!-- Bottom Navigation -->
+<div class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-black/90 backdrop-blur-xl z-50 border-t border-outline-variant/10 shadow-[0px_-10px_30px_rgba(0,0,0,0.8)] md:hidden">
+<a class="flex flex-col items-center justify-center bg-[#004c69] text-[#7bd0ff] rounded-xl px-4 py-1 scale-95 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#9babd2] hover:text-[#dde5ff] px-4 py-1 scale-95 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Vault</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#9babd2] hover:text-[#dde5ff] px-4 py-1 scale-95 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Security</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#9babd2] hover:text-[#dde5ff] px-4 py-1 scale-95 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Profile</span>
+</a>
+</div>
+</body></html>

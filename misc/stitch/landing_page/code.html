@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GottaGO | Sovereign Vault</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#e1ecff",
+                        "on-error-container": "#ff9993",
+                        "on-primary-fixed": "#00445e",
+                        "secondary-dim": "#979eb1",
+                        "surface-tint": "#7bd0ff",
+                        "inverse-surface": "#faf9ff",
+                        "on-background": "#dde5ff",
+                        "surface-container-low": "#0c1323",
+                        "on-primary-container": "#97d8ff",
+                        "on-tertiary-container": "#4d5767",
+                        "tertiary-container": "#e1ecff",
+                        "on-surface-variant": "#9babd2",
+                        "on-secondary-fixed-variant": "#545b6d",
+                        "on-error": "#490106",
+                        "surface-variant": "#152545",
+                        "on-secondary-container": "#b8bfd3",
+                        "surface": "#090e19",
+                        "primary-dim": "#47c4ff",
+                        "on-surface": "#dde5ff",
+                        "surface-container-highest": "#152545",
+                        "primary-container": "#004c69",
+                        "primary-fixed": "#c4e7ff",
+                        "error-dim": "#bb5551",
+                        "on-primary-fixed-variant": "#006286",
+                        "inverse-primary": "#00668b",
+                        "tertiary": "#f8f9ff",
+                        "on-primary": "#004560",
+                        "secondary-fixed": "#dce2f7",
+                        "surface-dim": "#090e19",
+                        "on-secondary-fixed": "#383f50",
+                        "outline": "#667599",
+                        "surface-container-high": "#121f39",
+                        "surface-container-lowest": "#000000",
+                        "tertiary-fixed-dim": "#d3ddf0",
+                        "on-tertiary-fixed-variant": "#576171",
+                        "error-container": "#7f2927",
+                        "secondary-container": "#343b4c",
+                        "on-secondary": "#19202f",
+                        "primary-fixed-dim": "#a2dcff",
+                        "secondary": "#979eb1",
+                        "secondary-fixed-dim": "#ced4e9",
+                        "on-tertiary-fixed": "#3b4554",
+                        "tertiary-dim": "#d3ddf0",
+                        "outline-variant": "#384869",
+                        "surface-bright": "#172b51",
+                        "inverse-on-surface": "#505562",
+                        "primary": "#7bd0ff",
+                        "surface-container": "#0f192e",
+                        "background": "#090e19",
+                        "on-tertiary": "#566070",
+                        "error": "#ee7d77"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"],
+                        "mono": ["JetBrains Mono"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #090e19; color: #dde5ff; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .shadow-glow-sky { box-shadow: 0px 10px 40px -10px rgba(56, 189, 248, 0.15); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased">
+<header class="bg-[#090e19] font-['Inter'] antialiased flex justify-between items-center w-full px-6 py-4 max-w-none mx-auto sticky top-0 z-50">
+<div class="flex items-center gap-2">
+<span class="text-xl font-bold tracking-tight text-[#7bd0ff]">GottaGO</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-[#7bd0ff] font-semibold border-b-2 border-[#7bd0ff] pb-1" href="#">Dashboard</a>
+<a class="text-[#9babd2] hover:text-[#dde5ff] transition-colors" href="#">Assets</a>
+<a class="text-[#9babd2] hover:text-[#dde5ff] transition-colors" href="#">Security</a>
+<a class="text-[#9babd2] hover:text-[#dde5ff] transition-colors" href="#">Vault</a>
+<a class="text-[#9babd2] hover:text-[#dde5ff] transition-colors" href="#">Activity</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#9babd2] hover:bg-[#121f39] p-2 rounded-lg transition-all">notifications</button>
+<button class="material-symbols-outlined text-[#9babd2] hover:bg-[#121f39] p-2 rounded-lg transition-all">settings</button>
+<div class="h-8 w-8 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden">
+<img alt="User profile" class="h-full w-full object-cover" data-alt="professional portrait of a high-tech finance user with a neutral background and soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATklbtYN0hwMocojEFxx4XN9jlqU5LNOenlgzBpIa6xL5jf6MXm9E6O0qbJaO4k6DdzUjBAHnJvBhv6kvC7OJAMc8nkstQesAMvhTk1RyoT_8z_-Yck_Vgg-AB36jBvkEOfBL4ryzwtAIdyz6Ild-PGI-TWNu0tV0F0g61OMXJyBWenvshPGVdXsY-p8h6z7L6WqUZX8P_HEnV7cVo3kk2o6QQHt2H-l-qBhx2GIXaSdb3I7-ZB-oof2la6yW32f-wELdT6Bj9h0pc"/>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-6 pt-20 pb-32">
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-32">
+<div class="lg:col-span-7">
+<h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
+                    Sovereign protection for <span class="text-primary">unpredictable income</span>
+</h1>
+<p class="text-on-surface-variant text-xl mb-10 max-w-2xl leading-relaxed">
+                    Protect your livelihood from local disruptions using algorithmic parametric insurance. Instant verification, zero human bias, total security.
+                </p>
+<div class="flex flex-col gap-4 mb-10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface">Hyper-local weather triggers</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface">Automatic claim processing</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface">Transparent node verification</span>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-lg font-bold text-lg hover:shadow-glow-sky transition-all active:scale-95">
+                        Secure your income
+                    </button>
+<button class="border border-outline/20 text-primary px-8 py-4 rounded-lg font-bold text-lg hover:bg-surface-container-high transition-all">
+                        View vaults
+                    </button>
+</div>
+</div>
+<div class="lg:col-span-5 relative">
+<div class="absolute -top-10 -left-10 w-40 h-40 bg-primary/10 blur-[100px] rounded-full"></div>
+<div class="bg-surface-container border border-outline-variant/15 p-8 rounded-xl relative z-10 shadow-glow-sky">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-mono text-sm uppercase tracking-widest text-on-surface-variant">Active Shield Status</h3>
+<div class="bg-primary/10 text-primary font-mono text-[10px] px-3 py-1 rounded-full">LIVE_FEED</div>
+</div>
+<div class="space-y-6">
+<div class="flex justify-between items-end border-b border-outline-variant/15 pb-4">
+<div>
+<p class="text-on-surface-variant text-xs mb-1">Current Payout Pool</p>
+<p class="text-2xl font-bold font-mono">$1,284,000.00</p>
+</div>
+<span class="material-symbols-outlined text-primary text-3xl">account_balance_wallet</span>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<p class="text-on-surface-variant text-xs mb-1">Active Claims (24h)</p>
+<p class="text-2xl font-bold font-mono">142</p>
+</div>
+<span class="material-symbols-outlined text-error text-3xl">radar</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="mb-32">
+<h2 class="text-2xl font-bold mb-10 tracking-tight">Parametric trigger events</h2>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+<div class="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-high transition-all border border-transparent hover:border-primary/20 group">
+<span class="material-symbols-outlined text-blue-400 text-3xl mb-4 block group-hover:scale-110 transition-transform">water_drop</span>
+<h3 class="font-bold mb-1">Rain</h3>
+<p class="text-on-surface-variant text-sm">Excessive rainfall thresholds</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-high transition-all border border-transparent hover:border-primary/20 group">
+<span class="material-symbols-outlined text-orange-400 text-3xl mb-4 block group-hover:scale-110 transition-transform">thermostat</span>
+<h3 class="font-bold mb-1">Heat</h3>
+<p class="text-on-surface-variant text-sm">Extreme temperature peaks</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-high transition-all border border-transparent hover:border-primary/20 group">
+<span class="material-symbols-outlined text-amber-400 text-3xl mb-4 block group-hover:scale-110 transition-transform">air</span>
+<h3 class="font-bold mb-1">AQI</h3>
+<p class="text-on-surface-variant text-sm">Air quality health alerts</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-high transition-all border border-transparent hover:border-primary/20 group">
+<span class="material-symbols-outlined text-red-500 text-3xl mb-4 block group-hover:scale-110 transition-transform">emergency_home</span>
+<h3 class="font-bold mb-1">Bandh</h3>
+<p class="text-on-surface-variant text-sm">Civil disruption &amp; strikes</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-high transition-all border border-transparent hover:border-primary/20 group">
+<span class="material-symbols-outlined text-yellow-400 text-3xl mb-4 block group-hover:scale-110 transition-transform">layers</span>
+<h3 class="font-bold mb-1">Compound</h3>
+<p class="text-on-surface-variant text-sm">Multi-vector risk overlap</p>
+</div>
+</div>
+</section>
+<section class="bg-surface-container-low rounded-2xl p-10 mb-32">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<div class="text-center">
+<p class="text-on-surface-variant font-mono text-sm uppercase tracking-widest mb-2">Triggers</p>
+<p class="text-4xl font-bold text-primary font-mono">05</p>
+<p class="text-on-surface-variant text-xs mt-2">Active vectors monitored</p>
+</div>
+<div class="text-center md:border-x border-outline-variant/15">
+<p class="text-on-surface-variant font-mono text-sm uppercase tracking-widest mb-2">Payout Speed</p>
+<p class="text-4xl font-bold text-primary font-mono">&lt;2HR</p>
+<p class="text-on-surface-variant text-xs mt-2">Average settlement time</p>
+</div>
+<div class="text-center">
+<p class="text-on-surface-variant font-mono text-sm uppercase tracking-widest mb-2">Availability</p>
+<p class="text-4xl font-bold text-primary font-mono">03</p>
+<p class="text-on-surface-variant text-xs mt-2">Major metro hubs active</p>
+</div>
+</div>
+</section>
+<section class="mb-32">
+<h2 class="text-2xl font-bold mb-12 tracking-tight">The engineering of trust</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-surface-container p-8 rounded-xl border border-outline-variant/10">
+<div class="w-12 h-12 bg-primary-container/30 rounded-lg flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary">auto_mode</span>
+</div>
+<h3 class="text-xl font-bold mb-4">Smart Triggers</h3>
+<p class="text-on-surface-variant leading-relaxed">
+                        Hyper-local IoT sensors and verifiable data feeds monitor environment variables in real-time to trigger payouts instantly.
+                    </p>
+</div>
+<div class="bg-surface-container p-8 rounded-xl border border-outline-variant/10">
+<div class="w-12 h-12 bg-primary-container/30 rounded-lg flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary">show_chart</span>
+</div>
+<h3 class="text-xl font-bold mb-4">XGBoost Pricing</h3>
+<p class="text-on-surface-variant leading-relaxed">
+                        Our proprietary machine learning models analyze decades of historical data to provide precise, fair risk-based premiums.
+                    </p>
+</div>
+<div class="bg-surface-container p-8 rounded-xl border border-outline-variant/10">
+<div class="w-12 h-12 bg-primary-container/30 rounded-lg flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary">verified_user</span>
+</div>
+<h3 class="text-xl font-bold mb-4">Zero-Touch Claims</h3>
+<p class="text-on-surface-variant leading-relaxed">
+                        No paperwork. No adjusters. If the trigger occurs, the payout is dispatched automatically to your sovereign vault.
+                    </p>
+</div>
+</div>
+</section>
+<section class="relative rounded-3xl overflow-hidden min-h-[400px] flex items-center px-12">
+<div class="absolute inset-0 bg-surface-container-high z-0">
+<img alt="Cybersecurity abstraction" class="w-full h-full object-cover opacity-20 grayscale" data-alt="abstract digital network visualization with flowing data points in deep blue and charcoal tones, high contrast technical aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC16O5dXaUqnmWoxb7q-ikatN6o1oTq4s90340uyUhq9GZ6ztWuR2ok1KUsFDv1nrIuM8mCxv4ZDgjovVDCUcSuM72cKCbqGMdTJN25FvHbBi2HU-qPJlrQ8BsGXmBLfHgli4xpHDSh-ajcIxPVG0BQ3xOcahT0pPrvk_uqIbqzsqf9wlBxUlMvqfzh4zKlx6_5gl3KnSBuQ9e-Fl-u8wc4ZEIn-maIpcmLFfjx506HNLmavIH1vX2J_Dh0mcf5-aFQZcpM7Twk-CxA"/>
+</div>
+<div class="relative z-10 max-w-2xl">
+<h2 class="text-4xl font-bold mb-6">Ready to shield your income?</h2>
+<p class="text-on-surface-variant text-lg mb-8">
+                    Join the 5,000+ professionals who have already secured their financial future against local volatility.
+                </p>
+<div class="flex gap-4">
+<button class="bg-primary text-on-primary px-8 py-3 rounded-lg font-bold hover:shadow-glow-sky transition-all">Get started</button>
+<button class="bg-surface-container-low/80 backdrop-blur text-on-surface px-8 py-3 rounded-lg font-bold">Contact sales</button>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-surface-container-low py-16 px-6 border-t border-outline-variant/10">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="col-span-1 md:col-span-1">
+<span class="text-xl font-bold tracking-tight text-[#7bd0ff] mb-6 block">GottaGO</span>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                    The world's first decentralized parametric income protection platform.
+                </p>
+</div>
+<div>
+<h4 class="font-bold text-sm mb-6 text-on-surface">Product</h4>
+<ul class="space-y-4 text-sm text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">Pricing</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Risk Models</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Triggers</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Claims Feed</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-sm mb-6 text-on-surface">Company</h4>
+<ul class="space-y-4 text-sm text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Legal</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Privacy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Security</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-sm mb-6 text-on-surface">System Status</h4>
+<div class="flex items-center gap-2 mb-2">
+<div class="w-2 h-2 rounded-full bg-primary shadow-glow-sky animate-pulse"></div>
+<span class="text-xs font-mono text-on-surface-variant">ALL SYSTEMS OPERATIONAL</span>
+</div>
+<p class="text-[10px] text-on-surface-variant font-mono uppercase tracking-tighter">Last update: 2 mins ago</p>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-outline-variant/5 flex justify-between items-center text-[10px] font-mono text-on-surface-variant tracking-widest">
+<span>© 2024 GOTTAGO PROTOCOL</span>
+<span>v2.4.0-STABLE</span>
+</div>
+</footer>
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-[#0c1323]/95 backdrop-blur-md z-50 border-t border-[#384869]/20 shadow-[0px_-4px_20px_rgba(0,0,0,0.4)]">
+<a class="flex flex-col items-center justify-center bg-[#004c69] text-[#7bd0ff] rounded-xl px-4 py-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#9babd2] px-4 py-1" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Vault</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#9babd2] px-4 py-1" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Security</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#9babd2] px-4 py-1" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

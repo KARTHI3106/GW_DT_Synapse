@@ -72,8 +72,8 @@ async def register_worker(body: WorkerCreate):
     # Insert worker
     worker_data = {
         "name": body.name,
-        "phone": phone_hash,
-        "platform": body.platform,
+        "phone_hash": phone_hash,
+        "platform": body.platform.lower(),
         "city": body.city,
         "zone": body.zone,
         "worker_id": body.worker_id,

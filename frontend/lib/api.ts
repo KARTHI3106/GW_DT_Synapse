@@ -7,7 +7,7 @@ async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   })
   const data = await res.json()
   if (!res.ok) {
-    throw new Error(data?.error?.message || `API error ${res.status}`)
+    throw new Error(data?.error?.message || data?.detail || `API error ${res.status}`)
   }
   return data
 }
@@ -46,6 +46,10 @@ export const claimsApi = {
     apiFetch(`/api/v1/claims/${workerId}`),
   getClaimDetail: (claimId: string) =>
     apiFetch(`/api/v1/claims/${claimId}/detail`),
+  rerunFraudCheck: (claimId: string) =>
+    apiFetch(`/api/v1/claims/${claimId}/fraud-check`, { method: 'POST' }),
+  processPayout: (claimId: string) =>
+    apiFetch(`/api/v1/claims/${claimId}/payout`, { method: 'POST' }),
 }
 
 // Triggers

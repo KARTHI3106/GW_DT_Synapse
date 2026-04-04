@@ -9,36 +9,37 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // GigShield design system tokens
         brand: {
-          primary: '#6366f1',   // indigo-500
-          'primary-hover': '#4f46e5',
-          'primary-glow': 'rgba(99, 102, 241, 0.2)',
+          primary: '#38bdf8',
+          'primary-hover': '#0ea5e9',
+          'primary-glow': 'rgba(56, 189, 248, 0.15)',
+          'primary-muted': 'rgba(56, 189, 248, 0.08)',
         },
         surface: {
-          DEFAULT: '#0f172a',   // slate-900
-          card: '#1e293b',      // slate-800
-          'card-hover': '#293548',
-          border: '#334155',    // slate-700
-          'border-active': 'rgba(99, 102, 241, 0.4)',
+          DEFAULT: '#0a0f1a',
+          card: '#111827',
+          'card-hover': '#1f2937',
+          elevated: '#1a2332',
+          border: '#1f2937',
+          'border-active': 'rgba(56, 189, 248, 0.35)',
         },
         text: {
-          primary: '#f8fafc',   // slate-50
-          secondary: '#94a3b8', // slate-400
-          muted: '#64748b',     // slate-500
+          primary: '#f9fafb',
+          secondary: '#9ca3af',
+          muted: '#6b7280',
         },
         status: {
-          success: '#10b981',   // emerald-500
-          warning: '#f59e0b',   // amber-500
-          danger: '#f43f5e',    // rose-500
-          'success-bg': 'rgba(16, 185, 129, 0.1)',
-          'warning-bg': 'rgba(245, 158, 11, 0.1)',
-          'danger-bg': 'rgba(244, 63, 94, 0.1)',
+          success: '#22c55e',
+          warning: '#eab308',
+          danger: '#ef4444',
+          'success-bg': 'rgba(34, 197, 94, 0.1)',
+          'warning-bg': 'rgba(234, 179, 8, 0.1)',
+          'danger-bg': 'rgba(239, 68, 68, 0.1)',
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'monospace'],
       },
       borderRadius: {
         card: '12px',
@@ -46,23 +47,26 @@ module.exports = {
         input: '6px',
       },
       boxShadow: {
-        card: '0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2)',
-        'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.3)',
-        'glow-indigo': '0 0 20px rgba(99, 102, 241, 0.15)',
-        'glow-indigo-strong': '0 0 30px rgba(99, 102, 241, 0.25)',
-        'glow-emerald': '0 0 20px rgba(16, 185, 129, 0.15)',
-        'glow-rose': '0 0 20px rgba(244, 63, 94, 0.15)',
+        card: '0 1px 3px rgba(0, 0, 0, 0.4)',
+        'card-hover': '4px 4px 0px #38bdf8',
+        'solid-primary': '4px 4px 0px #38bdf8',
+        'solid-primary-lg': '6px 6px 0px #38bdf8',
+        'glow-sky': '0 0 20px rgba(56, 189, 248, 0.12)',
+        'glow-green': '0 0 20px rgba(34, 197, 94, 0.15)',
+        'glow-red': '0 0 20px rgba(239, 68, 68, 0.15)',
       },
       animation: {
         'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
         'slide-up': 'slideUp 0.3s ease-out',
         'fade-in': 'fadeIn 0.4s ease-out',
         'bar-fill': 'barFill 0.8s ease-out forwards',
+        'count-up': 'countUp 0.6s ease-out',
+        'scan-line': 'scanLine 3s linear infinite',
       },
       keyframes: {
         pulseGlow: {
-          '0%, 100%': { boxShadow: '0 0 10px rgba(99, 102, 241, 0.2)' },
-          '50%': { boxShadow: '0 0 25px rgba(99, 102, 241, 0.5)' },
+          '0%, 100%': { boxShadow: '0 0 10px rgba(56, 189, 248, 0.15)' },
+          '50%': { boxShadow: '0 0 25px rgba(56, 189, 248, 0.35)' },
         },
         slideUp: {
           '0%': { transform: 'translateY(10px)', opacity: '0' },
@@ -75,6 +79,14 @@ module.exports = {
         barFill: {
           '0%': { width: '0%' },
           '100%': { width: 'var(--bar-width)' },
+        },
+        countUp: {
+          '0%': { transform: 'translateY(8px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        scanLine: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
         },
       },
     },

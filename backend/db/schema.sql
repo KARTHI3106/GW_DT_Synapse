@@ -1,4 +1,4 @@
--- GigShield Database Schema
+-- GottaGO Database Schema
 -- Run this in Supabase SQL Editor (Dashboard → SQL Editor → New Query)
 -- Simulates Guidewire InsuranceSuite: PolicyCenter, ClaimCenter, BillingCenter
 
@@ -25,7 +25,7 @@ create table if not exists public.workers (
 -- =============================================
 create table if not exists public.policies (
   id               uuid default gen_random_uuid() primary key,
-  policy_number    text unique not null,            -- GS-2026-MUM-123456
+  policy_number    text unique not null,            -- GTG-2026-MUM-123456
   worker_id        uuid not null references public.workers(id) on delete cascade,
   start_date       date not null,
   end_date         date not null,

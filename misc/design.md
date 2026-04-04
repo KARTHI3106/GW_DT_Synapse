@@ -1,8 +1,8 @@
-# GigShield Phase 2 - Design Document
+# GottaGO Phase 2 - Design Document
 
 ## System Architecture Overview
 
-GigShield follows a modern serverless architecture with clear separation between frontend, backend, database, and ML components.
+GottaGO follows a modern serverless architecture with clear separation between frontend, backend, database, and ML components.
 
 ### Architecture Diagram
 
@@ -655,9 +655,9 @@ POST https://guidewire-instance.com/bc/rest/v1/invoices
 #### Landing Page (/)
 ```
 ┌─────────────────────────────────────┐
-│  GigShield Logo                     │
+│  GottaGO Logo                     │
 │                                     │
-│  India's First Weekly Income Shield │
+│  Weekly Income Protection     │
 │  for Delivery Partners              │
 │                                     │
 │  [Register Now] [Learn More]       │
@@ -671,7 +671,7 @@ POST https://guidewire-instance.com/bc/rest/v1/invoices
 #### Registration Page (/register)
 ```
 ┌─────────────────────────────────────┐
-│  Register for GigShield             │
+│  Register for GottaGO             │
 │                                     │
 │  [Name Input]                       │
 │  [Phone Input]                      │

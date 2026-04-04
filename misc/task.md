@@ -1,4 +1,4 @@
-# GigShield Phase 2 - Task Breakdown & Build Plan
+# GottaGO Phase 2 - Task Breakdown & Build Plan
 
 ## Project Timeline
 
@@ -670,7 +670,7 @@
 
 **Files Involved:**
 - `/demo/script.md`
-- `/demo/gigshield_demo.mp4`
+- `/demo/gottago_demo.mp4`
 
 **Acceptance Criteria:**
 - Video exactly 2 minutes

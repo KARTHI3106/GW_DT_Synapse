@@ -12,13 +12,13 @@ import {
   AlertTriangle,
   Cloud,
   FileText,
-  Settings,
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { PolicyCard } from '@/components/policy-card'
 import { PremiumBreakdown } from '@/components/premium-breakdown'
+import { ClaimsTimeline } from '@/components/claims-timeline'
 import { policiesApi, premiumsApi, claimsApi } from '@/lib/api'
 
 interface Worker {
@@ -90,26 +90,22 @@ function DashboardContent() {
     try {
       const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
 
-      // Fetch worker
       const workerRes = await fetch(`${API}/api/v1/workers/${workerId}`)
       if (!workerRes.ok) throw new Error('Worker not found')
       const workerData = await workerRes.json() as Worker
       setWorker(workerData)
 
-      // Fetch policy
       const policyRes = await fetch(`${API}/api/v1/policies/${workerId}`)
       if (policyRes.ok) {
         const policyData = await policyRes.json() as Policy
         setPolicy(policyData)
       }
 
-      // Fetch premium breakdown
       const breakdownRes = await fetch(`${API}/api/v1/premiums/${workerId}/breakdown`)
       if (breakdownRes.ok) {
         setBreakdown(await breakdownRes.json())
       }
 
-      // Fetch claims
       const claimsRes = await fetch(`${API}/api/v1/claims/${workerId}`)
       if (claimsRes.ok) {
         setClaims(await claimsRes.json() as object[])
@@ -167,28 +163,6 @@ function DashboardContent() {
 
   return (
     <div className="min-h-screen bg-surface">
-      {/* Top bar */}
-      <nav className="border-b border-surface-border px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="h-7 w-7 rounded-lg bg-brand-primary flex items-center justify-center">
-            <Shield className="h-4 w-4 text-white" />
-          </div>
-          <span className="font-bold text-text-primary">GigShield</span>
-        </div>
-        <div className="flex items-center gap-2">
-          {policy && (
-            <Badge variant={policy.status === 'active' ? 'success' : 'warning'}>
-              {policy.status === 'active' ? 'Active' : 'Inactive'}
-            </Badge>
-          )}
-          <Link href="/admin">
-            <Button variant="ghost" size="icon">
-              <Settings className="h-4 w-4" />
-            </Button>
-          </Link>
-        </div>
-      </nav>
-
       <div className="max-w-2xl mx-auto px-4 py-6 space-y-5">
         {/* Worker greeting */}
         {(loading || worker) && (
@@ -202,14 +176,40 @@ function DashboardContent() {
               ) : (
                 <>
                   <h1 className="text-xl font-bold text-text-primary">
-                    Welcome, {worker?.name}
+                    Welcome back, {worker?.name}
                   </h1>
                   <p className="text-sm text-text-secondary">
-                    {worker?.city} — {worker?.zone} • {worker?.platform}
+                    Your income protection is currently active and monitoring.
                   </p>
                 </>
               )}
             </div>
+          </div>
+        )}
+
+        {/* Alert banner - shows when policy is active */}
+        {!loading && policy?.status === 'active' && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="alert-banner-warning"
+          >
+            <AlertTriangle className="h-5 w-5 flex-shrink-0" />
+            <div className="flex-1 min-w-0">
+              <p className="font-semibold text-sm">Active monitoring</p>
+              <p className="text-xs opacity-80">
+                GottaGO is tracking rain, heat, AQI, and bandh signals in {worker?.city ?? 'your city'}.
+              </p>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Policy status badge */}
+        {policy && (
+          <div className="flex justify-end">
+            <Badge variant={policy.status === 'active' ? 'default' : 'warning'} className="font-mono text-[10px] uppercase tracking-wider">
+              {policy.status === 'active' ? 'Active' : 'Inactive'}
+            </Badge>
           </div>
         )}
 
@@ -226,10 +226,10 @@ function DashboardContent() {
         {/* Premium breakdown */}
         <PremiumBreakdown breakdown={breakdown as any} loading={loading} />
 
-        {/* SmartShift — Today's Conditions */}
+        {/* Today's Conditions */}
         <Card>
           <CardHeader>
-            <CardTitle>Today&apos;s Conditions</CardTitle>
+            <CardTitle>Today&apos;s conditions</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-3 gap-3 mb-4">
@@ -242,10 +242,10 @@ function DashboardContent() {
               ))}
             </div>
             <p className="text-xs text-text-muted text-center">
-              All conditions normal • Safe to work in all zones today
+              All conditions normal - Safe to work in all zones today
             </p>
             <p className="text-[10px] text-text-muted/60 text-center mt-1">
-              Live data from OpenWeatherMap & WAQI — updates hourly
+              Live data from OpenWeatherMap and WAQI, updates hourly
             </p>
           </CardContent>
         </Card>
@@ -254,7 +254,7 @@ function DashboardContent() {
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle>Your Claims</CardTitle>
+              <CardTitle>Active claim timeline</CardTitle>
               {claims.length > 0 && (
                 <Badge variant="default">{claims.length}</Badge>
               )}
@@ -265,61 +265,11 @@ function DashboardContent() {
               <div className="space-y-3">
                 {[1, 2].map((i) => <div key={i} className="skeleton h-16 rounded-card" />)}
               </div>
-            ) : claims.length === 0 ? (
-              <div className="text-center py-8">
-                <Cloud className="h-10 w-10 text-text-muted mx-auto mb-3" />
-                <p className="text-sm text-text-secondary">No claims yet</p>
-                <p className="text-xs text-text-muted mt-1">
-                  We&apos;ll notify you the moment a trigger fires in your zone.
-                </p>
-              </div>
             ) : (
-              <div className="space-y-2">
-                {(claims as any[]).map((claim) => (
-                  <ClaimRow key={claim.id} claim={claim} />
-                ))}
-              </div>
+              <ClaimsTimeline claims={claims as any[]} />
             )}
           </CardContent>
         </Card>
-      </div>
-    </div>
-  )
-}
-
-function ClaimRow({ claim }: { claim: any }) {
-  const Icon = TRIGGER_ICONS[claim.trigger_type as keyof typeof TRIGGER_ICONS] ?? FileText
-  const statusVariant =
-    claim.status === 'paid' ? 'success'
-    : claim.status === 'approved' ? 'success'
-    : claim.status === 'flagged' ? 'danger'
-    : 'warning'
-
-  return (
-    <div className={`claim-card ${claim.status}`}>
-      <div className="flex items-start gap-3">
-        <div className="h-9 w-9 rounded-lg bg-surface flex items-center justify-center flex-shrink-0">
-          <Icon className="h-4 w-4 text-text-secondary" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <p className="text-sm font-medium text-text-primary">
-              {TRIGGER_LABELS[claim.trigger_type] ?? claim.trigger_type}
-            </p>
-            <Badge variant={statusVariant} className="text-[10px]">
-              {claim.status}
-            </Badge>
-          </div>
-          <p className="text-xs text-text-muted mt-0.5">
-            {new Date(claim.trigger_timestamp).toLocaleDateString('en-IN')} • {claim.claim_number}
-          </p>
-        </div>
-        <div className="text-right flex-shrink-0">
-          <p className="text-sm font-bold text-status-success">+Rs.{claim.payout_amount}</p>
-          {claim.transaction_id && (
-            <p className="text-[10px] text-text-muted mt-0.5">Razorpay</p>
-          )}
-        </div>
       </div>
     </div>
   )
@@ -330,7 +280,7 @@ function DemoState() {
     <div className="min-h-screen bg-surface flex items-center justify-center px-4">
       <div className="text-center max-w-sm">
         <Shield className="h-14 w-14 text-brand-primary mx-auto mb-4" />
-        <h1 className="text-xl font-bold text-text-primary mb-2">GigShield Demo</h1>
+        <h1 className="text-xl font-bold text-text-primary mb-2">Welcome</h1>
         <p className="text-text-secondary text-sm mb-6">
           Register as a worker to see your personal dashboard with live premium calculation and claims.
         </p>

@@ -1,0 +1,79 @@
+# GottaGO: UI Context for Stitch
+
+## Product
+GottaGO is a weekly parametric income protection product for Swiggy and Zomato delivery partners in India. When weather events (rain, heat, AQI) or government bandhs disrupt their earning day, the system auto-detects the disruption and pays them within 2 hours. Zero paperwork.
+
+## Design system
+### Color tokens (dark theme only)
+| Token | Hex | Usage |
+| --- | --- | --- |
+| `brand-primary` | #38bdf8 | CTAs, logos, active nav, focus rings |
+| `brand-primary-hover` | #0ea5e9 | Button hover state |
+| `surface` | #0a0f1a | Page background |
+| `surface-card` | #111827 | Card backgrounds |
+| `surface-border` | #1f2937 | All borders |
+| `text-primary` | #f9fafb | Headings, body text |
+| `text-secondary` | #9ca3af | Descriptions, subtitles |
+| `text-muted` | #6b7280 | Labels, timestamps |
+| `status-success` | #22c55e | Active, approved, paid |
+| `status-warning` | #eab308 | Paused, pending |
+| `status-danger` | #ef4444 | Expired, flagged, rejected |
+
+### Strict color rules
+- NO purple, violet, indigo, or magenta anywhere in the UI
+- NO gradient text or gradient backgrounds
+- The ONLY accent color is sky-blue (#38bdf8)
+- Status colors are semantic only: green for success, yellow for warning, red for danger
+- Data visualization uses: blue-400 (rain), orange-400 (heat), amber-400 (AQI), red-500 (bandh), yellow-400 (compound)
+- Highlighted text uses solid `text-sky-400` or the `.accent-text` utility class
+
+### Typography
+- Primary font: Inter (Google Fonts)
+- Monospace: JetBrains Mono (for policy numbers, IDs)
+- Hero: text-5xl/text-6xl bold
+- Page titles: text-xl bold
+- Card titles: text-base semibold
+- Body: text-sm
+- Labels: text-xs uppercase tracking-widest
+
+### Spacing
+- Card border-radius: 12px
+- Button border-radius: 8px
+- Input border-radius: 6px
+- Content max-width: max-w-6xl (1152px) for wide pages, max-w-2xl (672px) for mobile-first dashboard
+- Card padding: p-4 or p-6
+- Section gaps: space-y-5 or space-y-6
+
+### Components (shadcn/ui based)
+- Card, CardHeader, CardTitle, CardContent, CardFooter
+- Button (variants: default sky-blue, ghost, outline)
+- Badge (variants: success green, warning yellow, danger red)
+- Select, SelectTrigger, SelectContent, SelectItem
+- Input (dark bg, gray-800 border, sky focus ring)
+- Skeleton (pulse animation loading states)
+
+### Visual effects
+- Cards: solid `bg-surface-card/90` with subtle border, no backdrop-blur
+- Accent text: solid `.accent-text` class (sky-400 bold), NO gradients
+- Glow shadows: `shadow-glow-sky` (0 0 20px rgba(56, 189, 248, 0.12))
+- Background orbs: large blurred circles with sky-400/8 opacity (very subtle)
+- Pulse glow animation for active alerts (sky-based)
+- Slide-up stagger animation for card lists
+- Custom scrollbar (6px, gray colors, sky-400 hover)
+
+## Pages
+- Landing page (/)
+- Registration (/register)
+- Dashboard (/dashboard)
+- Admin (/admin)
+
+## Rules
+- No emoji anywhere in UI, code, or copy
+- Dark theme only, no light mode toggle
+- Sentence case for all headings (not Title Case)
+- No placeholder images, use icons (lucide-react)
+- Mobile-responsive: all grids collapse to single column on mobile
+- Every interactive element needs a hover state
+- Loading states use skeleton components, not spinners
+- Sky-blue (#38bdf8) is the only accent color; all other colors are status-semantic
+- NEVER use purple, violet, indigo, magenta, or gradient text

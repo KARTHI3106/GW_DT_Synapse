@@ -15,38 +15,45 @@ import {
   Users,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 
 const TRIGGERS = [
-  { icon: CloudRain, label: 'Heavy Rain', payout: '₹300', color: 'text-blue-400', bg: 'bg-blue-400/10' },
-  { icon: Thermometer, label: 'Extreme Heat', payout: '₹360', color: 'text-orange-400', bg: 'bg-orange-400/10' },
-  { icon: Wind, label: 'Severe AQI', payout: '₹240', color: 'text-purple-400', bg: 'bg-purple-400/10' },
-  { icon: Shield, label: 'Govt. Bandh', payout: '₹480', color: 'text-rose-400', bg: 'bg-rose-400/10' },
-  { icon: Zap, label: 'Compound Disruption', payout: '₹300', color: 'text-yellow-400', bg: 'bg-yellow-400/10' },
+  { icon: CloudRain, label: 'Heavy Rain', payout: 'Rs.300', color: 'text-blue-400', bg: 'bg-blue-400/10' },
+  { icon: Thermometer, label: 'Extreme Heat', payout: 'Rs.360', color: 'text-orange-400', bg: 'bg-orange-400/10' },
+  { icon: Wind, label: 'Severe AQI', payout: 'Rs.240', color: 'text-purple-400', bg: 'bg-purple-400/10' },
+  { icon: Shield, label: 'Govt. Bandh', payout: 'Rs.480', color: 'text-rose-400', bg: 'bg-rose-400/10' },
+  { icon: Zap, label: 'Compound Disruption', payout: 'Rs.300', color: 'text-yellow-400', bg: 'bg-yellow-400/10' },
 ]
 
 const FEATURES = [
   {
     icon: Zap,
     title: '5 Smart Triggers',
-    description: 'Rain, heat, AQI, bandh, and compound disruption score. Real-time detection via live APIs.',
+    description: 'Rain, heat, AQI, bandh, and compound disruption score with live signal checks.',
     color: 'text-brand-primary',
     bg: 'bg-brand-primary/10',
   },
   {
     icon: Brain,
     title: 'XGBoost Pricing',
-    description: 'Your premium is personalized. Zone flood risk, AQI history, your rating, and season all matter.',
+    description: 'Premiums are personalized using zone risk, AQI history, weekly hours, season, and rating.',
     color: 'text-purple-400',
     bg: 'bg-purple-400/10',
   },
   {
     icon: Clock,
     title: 'Zero-Touch Claims',
-    description: 'Trigger fires → claim created → fraud check → payout. No forms, no calls, no wait.',
+    description: 'Trigger fires -> claim created -> fraud check -> payout. No forms, no calls, no wait.',
     color: 'text-status-success',
     bg: 'bg-status-success/10',
   },
+]
+
+const VALUE_PROPS = [
+  'Zero paperwork, ever',
+  'Auto payouts in 2 hours',
+  'Rs.80-318/week',
+  'Mumbai / Delhi / Bengaluru',
 ]
 
 const fadeUp = {
@@ -61,20 +68,18 @@ const fadeUp = {
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-surface relative overflow-hidden">
-      {/* Background gradient orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-48 -left-48 h-96 w-96 rounded-full bg-brand-primary/10 blur-3xl" />
         <div className="absolute top-1/3 -right-32 h-80 w-80 rounded-full bg-purple-500/8 blur-3xl" />
         <div className="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-indigo-500/6 blur-3xl" />
       </div>
 
-      {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between px-6 py-5 max-w-6xl mx-auto">
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-lg bg-brand-primary flex items-center justify-center">
             <Shield className="h-5 w-5 text-white" />
           </div>
-          <span className="text-lg font-bold text-text-primary">GigShield</span>
+          <span className="text-lg font-bold text-text-primary">GottaGO</span>
         </div>
         <div className="flex items-center gap-3">
           <Link href="/admin">
@@ -86,7 +91,6 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Hero */}
       <section className="relative z-10 px-6 pt-16 pb-20 max-w-4xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -95,7 +99,7 @@ export default function HomePage() {
           className="inline-flex items-center gap-2 rounded-full border border-brand-primary/30 bg-brand-primary/10 px-4 py-1.5 text-xs font-medium text-brand-primary mb-6"
         >
           <Zap className="h-3 w-3" />
-          Guidewire DevTrails 2026 — Phase 2: Protect Your Worker
+          Guidewire DevTrails 2026 - Phase 2: Protect Your Worker
         </motion.div>
 
         <motion.h1
@@ -105,8 +109,8 @@ export default function HomePage() {
           className="text-5xl md:text-6xl font-bold leading-tight mb-6"
         >
           India&apos;s first{' '}
-          <span className="gradient-text">weekly income shield</span>
-          {' '}for delivery partners
+          <span className="gradient-text">weekly income protection</span>{' '}
+          for delivery partners
         </motion.h1>
 
         <motion.p
@@ -115,7 +119,7 @@ export default function HomePage() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-xl text-text-secondary mb-8 max-w-2xl mx-auto"
         >
-          When rain, extreme heat, or a bandh destroys your earning day — GigShield pays you
+          When rain, extreme heat, or a bandh destroys your earning day, GottaGO pays you
           automatically. Zero paperwork. Zero calls. Payout in 2 hours.
         </motion.p>
 
@@ -138,31 +142,24 @@ export default function HomePage() {
           </Link>
         </motion.div>
 
-        {/* Value props */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
           className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm text-text-secondary"
         >
-          {[
-            'Zero paperwork, ever',
-            'Auto payouts in 2 hours',
-            'Rs.80–318/week',
-            'Mumbai • Delhi • Bengaluru',
-          ].map((v) => (
-            <span key={v} className="flex items-center gap-1.5">
+          {VALUE_PROPS.map((value) => (
+            <span key={value} className="flex items-center gap-1.5">
               <CheckCircle className="h-3.5 w-3.5 text-status-success flex-shrink-0" />
-              {v}
+              {value}
             </span>
           ))}
         </motion.div>
       </section>
 
-      {/* Triggers row */}
       <section className="relative z-10 px-6 pb-16 max-w-6xl mx-auto">
         <p className="text-center text-xs font-semibold uppercase tracking-widest text-text-muted mb-6">
-          5 Parametric Triggers — We watch. You work.
+          5 Parametric Triggers - We watch. You work.
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {TRIGGERS.map(({ icon: Icon, label, payout, color, bg }, i) => (
@@ -186,7 +183,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Features */}
       <section className="relative z-10 px-6 pb-20 max-w-6xl mx-auto">
         <div className="grid md:grid-cols-3 gap-6">
           {FEATURES.map(({ icon: Icon, title, description, color, bg }, i) => (
@@ -210,7 +206,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Stats */}
       <section className="relative z-10 px-6 pb-16 max-w-4xl mx-auto">
         <div className="grid grid-cols-3 gap-6 border border-surface-border rounded-card p-8 bg-surface-card/40">
           {[
@@ -227,12 +222,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="relative z-10 border-t border-surface-border px-6 py-6">
         <div className="max-w-6xl mx-auto flex items-center justify-between text-xs text-text-muted">
           <div className="flex items-center gap-2">
             <Shield className="h-4 w-4 text-brand-primary" />
-            <span>GigShield</span>
+            <span>GottaGO</span>
           </div>
           <span>Built for Guidewire DevTrails 2026</span>
         </div>

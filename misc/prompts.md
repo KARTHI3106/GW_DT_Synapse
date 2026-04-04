@@ -1,4 +1,4 @@
-# Kiro Prompts for GigShield Phase 2
+# Kiro Prompts for GottaGO Phase 2
 
 Feed these prompts to Kiro in order. Each one builds on the previous output.
 
@@ -9,7 +9,7 @@ Feed these prompts to Kiro in order. Each one builds on the previous output.
 ```
 You are a Senior Product Manager specifying requirements for a hackathon project.
 
-PROJECT: GigShield - India's first weekly income shield for food delivery partners (Swiggy/Zomato). It pays workers automatically when verified external disruptions (heavy rain, extreme heat, severe AQI, government bandh) destroy their earning day. Zero paperwork, zero claim forms.
+PROJECT: GottaGO - a weekly income protection product for food delivery partners (Swiggy/Zomato). It pays workers automatically when verified external disruptions (heavy rain, extreme heat, severe AQI, government bandh) destroy their earning day. Zero paperwork, zero claim forms.
 
 HACKATHON: Guidewire DEVTrails 2026
 DEADLINE: April 4, 2026
@@ -158,7 +158,7 @@ Generate a complete design.md with architecture diagrams (mermaid), component hi
 ## Prompt 3: Generate file structure
 
 ```
-Based on the requirements.md and design.md, generate the complete file structure for the GigShield project.
+Based on the requirements.md and design.md, generate the complete file structure for the GottaGO project.
 
 Rules:
 - Frontend is a Next.js 14 App Router project inside /frontend
@@ -240,11 +240,11 @@ Each task should include:
 ## Prompt 5 (Optional): Generate demo video script
 
 ```
-Generate a 2-minute demo video script for GigShield Phase 2.
+Generate a 2-minute demo video script for GottaGO Phase 2.
 
 Structure:
 0:00-0:15 - Problem statement (Rajan loses Rs.320 on a rainy day, no insurance covers this)
-0:15-0:30 - Solution overview (GigShield: weekly income shield, parametric triggers, zero-touch claims)
+0:15-0:30 - Solution overview (GottaGO: weekly income protection, parametric triggers, zero-touch claims)
 0:30-0:50 - Demo: Worker Registration (show form, submit, see policy created with dynamic premium)
 0:50-1:10 - Demo: Dynamic Premium Calculator (show how changing zone/city/season adjusts premium, show XGBoost breakdown)
 1:10-1:35 - Demo: Auto-Claim Flow (trigger a rain event via real OpenWeatherMap data or simulated trigger, show claim auto-created, fraud checks passing, payout simulated)

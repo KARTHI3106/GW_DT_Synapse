@@ -1,11 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Calendar, Shield, RefreshCw, PauseCircle, PlayCircle, ExternalLink } from 'lucide-react'
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
+import { Calendar, Shield, RefreshCw, PauseCircle, PlayCircle } from 'lucide-react'
+import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { GuidewireBadge } from '@/components/guidewire-badge'
 import { formatDate, formatCurrency } from '@/lib/utils'
 
 interface Policy {
@@ -32,139 +31,114 @@ interface PolicyCardProps {
 }
 
 const STATUS_MAP = {
-  active: { variant: 'success' as const, label: 'Active Coverage' },
-  paused: { variant: 'warning' as const, label: 'Paused' },
-  expired: { variant: 'danger' as const, label: 'Expired' },
-  cancelled: { variant: 'danger' as const, label: 'Cancelled' },
+  active: { variant: 'default' as const, label: 'ACTIVE', styling: 'text-brand-primary bg-brand-primary/10 border-brand-primary/40' },
+  paused: { variant: 'outline' as const, label: 'PAUSED', styling: 'text-text-muted bg-surface-card border-surface-border' },
+  expired: { variant: 'status-danger' as const, label: 'EXPIRED', styling: 'text-status-danger bg-status-danger/10 border-status-danger/40' },
+  cancelled: { variant: 'status-danger' as const, label: 'CANCELLED', styling: 'text-status-danger bg-status-danger/10 border-status-danger/40' },
 }
 
 export function PolicyCard({ policy, loading, onRenew, onPause, onResume, renewLoading }: PolicyCardProps) {
   if (loading) {
     return (
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="skeleton h-5 w-40" />
+      <section className="mb-8">
+        <div className="bg-surface rounded-xl p-6 relative overflow-hidden border border-surface-border">
+          <div className="flex justify-between items-start mb-6">
+            <div>
+              <div className="skeleton h-3 w-20 mb-2" />
+              <div className="skeleton h-6 w-40" />
+            </div>
             <div className="skeleton h-6 w-24 rounded-full" />
           </div>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="flex justify-between">
-              <div className="skeleton h-4 w-24" />
-              <div className="skeleton h-4 w-32" />
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <div className="skeleton h-3 w-24 mb-2" />
+              <div className="skeleton h-6 w-28" />
             </div>
-          ))}
-        </CardContent>
-      </Card>
+            <div>
+              <div className="skeleton h-3 w-24 mb-2" />
+              <div className="skeleton h-6 w-28" />
+            </div>
+          </div>
+        </div>
+      </section>
     )
   }
 
   if (!policy) {
     return (
-      <Card className="p-6 text-center">
+      <Card className="p-6 text-center bg-surface border border-surface-border rounded-xl">
         <Shield className="h-10 w-10 text-text-muted mx-auto mb-3" />
         <p className="text-text-secondary">No active policy found.</p>
       </Card>
     )
   }
 
-  const statusConfig = STATUS_MAP[policy.status] ?? STATUS_MAP.active
+  const statusConfig = STATUS_MAP[policy.status]
 
   return (
-    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <CardTitle>Your Policy</CardTitle>
-                <GuidewireBadge />
-              </div>
-              <p className="policy-number text-xs">{policy.policy_number}</p>
-            </div>
-            <Badge variant={statusConfig.variant}>{statusConfig.label}</Badge>
+    <section className="mb-8 group">
+      <motion.div 
+        className="bg-surface rounded-xl p-6 relative overflow-hidden border border-surface-border/50 hover:border-brand-primary/20 transition-all duration-500"
+        initial={{ opacity: 0, y: 10 }} 
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <div className="flex justify-between items-start mb-6">
+          <div>
+            <p className="text-[10px] font-mono uppercase tracking-widest text-text-muted mb-1">Policy Number</p>
+            <h2 className="font-mono text-lg text-brand-primary tracking-tight group-hover:text-[#0ea5e9] transition-colors">
+              {policy.policy_number}
+            </h2>
           </div>
-        </CardHeader>
+          <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${statusConfig.styling}`}>
+            {statusConfig.label}
+          </span>
+        </div>
 
-        <CardContent className="space-y-3">
-          {/* Coverage period */}
-          <div className="flex items-center justify-between text-sm">
-            <span className="flex items-center gap-1.5 text-text-muted">
-              <Calendar className="h-3.5 w-3.5" />
-              Coverage Period
-            </span>
-            <span className="text-text-primary font-medium">
-              {formatDate(policy.start_date)} → {formatDate(policy.end_date)}
-            </span>
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <p className="text-[10px] text-text-muted uppercase mb-1 font-mono tracking-widest">Weekly coverage</p>
+            <p className="text-xl font-bold text-text-primary font-mono tracking-tighter">
+              {formatCurrency(policy.coverage_amount)}
+            </p>
           </div>
-
-          {/* Weekly premium */}
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-text-muted">Weekly Premium</span>
-            <span className="font-bold text-brand-primary">{formatCurrency(policy.weekly_premium)}/week</span>
+          <div>
+            <p className="text-[10px] text-text-muted uppercase mb-1 font-mono tracking-widest">Next premium</p>
+            <p className="text-xl font-bold text-brand-primary font-mono tracking-tighter">
+              {formatCurrency(policy.weekly_premium)}
+            </p>
           </div>
-
-          {/* Max coverage */}
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-text-muted">Max Payout/Trigger</span>
-            <span className="font-semibold text-status-success">Up to {formatCurrency(policy.coverage_amount)}</span>
-          </div>
-
-          {/* Claims summary */}
-          {policy.claims_count !== undefined && (
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-text-muted">Claims This Week</span>
-              <span className="text-text-primary">
-                {policy.claims_count} claim{policy.claims_count !== 1 ? 's' : ''}
-                {policy.total_payout ? ` • ${formatCurrency(policy.total_payout)} paid` : ''}
-              </span>
-            </div>
-          )}
-
-          {/* Guidewire note */}
-          <div className="rounded-md bg-surface p-2.5 border border-surface-border text-[10px] text-text-muted flex items-start gap-1.5 mt-1">
-            <ExternalLink className="h-3 w-3 flex-shrink-0 mt-0.5" />
-            <span>
-              [SIMULATED] In production, this policy maps to Guidewire PolicyCenter.
-              Policy lifecycle events (create/renew/pause) call PC REST API.
-            </span>
-          </div>
-        </CardContent>
-
-        <CardFooter className="gap-2 flex-wrap">
-          {policy.status === 'active' && (
-            <>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => onRenew?.(policy.id)}
-                loading={renewLoading}
-              >
-                <RefreshCw className="h-3.5 w-3.5" />
-                Renew
+        </div>
+        
+        {/* Coverage period & Actions */}
+        <div className="flex items-center justify-between text-sm mt-2 mb-6">
+          <span className="flex items-center gap-1.5 text-text-muted font-mono text-[10px] uppercase tracking-widest">
+            <Calendar className="h-3.5 w-3.5" />
+            {formatDate(policy.start_date)} - {formatDate(policy.end_date)}
+          </span>
+          <div className="flex gap-2">
+            {policy.status === 'active' && (
+              <>
+                <Button variant="ghost" size="sm" onClick={() => onRenew?.(policy.id)} loading={renewLoading} className="h-8 text-xs bg-surface-card hover:bg-[#121f39] text-[#9babd2] hover:text-[#7bd0ff]">
+                  <RefreshCw className="h-3 w-3 mr-1" /> Renew
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => onPause?.(policy.id)} className="h-8 text-xs bg-surface-card hover:bg-[#121f39] text-[#9babd2] hover:text-[#7bd0ff]">
+                  <PauseCircle className="h-3 w-3 mr-1" /> Pause
+                </Button>
+              </>
+            )}
+            {policy.status === 'paused' && (
+              <Button size="sm" onClick={() => onResume?.(policy.id)} className="h-8 text-xs">
+                <PlayCircle className="h-3 w-3 mr-1" /> Resume
               </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => onPause?.(policy.id)}
-              >
-                <PauseCircle className="h-3.5 w-3.5" />
-                Pause Coverage
-              </Button>
-            </>
-          )}
-          {policy.status === 'paused' && (
-            <Button
-              size="sm"
-              onClick={() => onResume?.(policy.id)}
-            >
-              <PlayCircle className="h-3.5 w-3.5" />
-              Resume Coverage
-            </Button>
-          )}
-        </CardFooter>
-      </Card>
-    </motion.div>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-6 pt-6 border-t border-surface-border/50 flex items-center gap-3">
+          <Shield className="h-5 w-5 text-brand-primary group-hover:scale-110 transition-transform" />
+          <span className="text-sm font-medium text-text-primary tracking-wide">Sovereign protection enabled</span>
+        </div>
+      </motion.div>
+    </section>
   )
 }

@@ -9,6 +9,9 @@ class Settings(BaseSettings):
     waqi_token: str = ""
     razorpay_key_id: str = ""
     razorpay_key_secret: str = ""
+    guidewire_env: str = "mock"
+    guidewire_base_url: str = ""
+    guidewire_auth_token: str = ""
 
     class Config:
         env_file = ".env"

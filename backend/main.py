@@ -4,8 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers import workers, policies, premiums, claims, triggers, admin
 
 app = FastAPI(
-    title="GigShield API",
-    description="Parametric income shield for Swiggy/Zomato delivery partners",
+    title="GottaGO API",
+    description="Parametric income protection for delivery partners",
     version="1.0.0",
 )
 
@@ -27,4 +27,4 @@ app.include_router(admin.router, prefix="/api/v1/admin", tags=["admin"])
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "service": "gigshield-api"}
+    return {"status": "ok", "service": "gottago-api"}

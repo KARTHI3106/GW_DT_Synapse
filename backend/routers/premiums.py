@@ -60,7 +60,7 @@ async def get_premium_breakdown(worker_id: str):
         supabase.table("premium_history")
         .select("*, features_json")
         .eq("worker_id", worker_result.data[0]["id"])
-        .order("calculated_at", desc=True)
+        .order("created_at", desc=True)
         .limit(1)
         .execute()
     )

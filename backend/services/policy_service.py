@@ -7,11 +7,11 @@ CITY_CODES = {"Mumbai": "MUM", "Delhi": "DEL", "Bengaluru": "BLR"}
 
 
 def generate_policy_number(city: str) -> str:
-    """Generate policy number in format: GS-2026-MUM-123456"""
+    """Generate policy number in format: GTG-2026-MUM-123456."""
     year = date.today().year
     city_code = CITY_CODES.get(city, "IND")
     suffix = "".join(random.choices(string.digits, k=6))
-    return f"GS-{year}-{city_code}-{suffix}"
+    return f"GTG-{year}-{city_code}-{suffix}"
 
 
 async def create_policy_for_worker(
@@ -21,10 +21,10 @@ async def create_policy_for_worker(
     coverage_amount: int,
     supabase,
 ) -> dict:
-    """
-    Auto-create policy on worker registration.
-    [MOCK/SIMULATED] Simulates Guidewire PolicyCenter policy lifecycle.
-    Production: POST https://guidewire-instance.com/pc/rest/v1/policies/{policyNumber}
+    """Auto-create policy on worker registration.
+
+    In production, policy lifecycle events are forwarded to the
+    claims processing API via the integrations layer.
     """
     today = date.today()
     policy_data = {
