@@ -14,7 +14,7 @@ _Personalised earnings velocity collapse protection for Swiggy and Zomato delive
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 ![Data Sources](https://img.shields.io/badge/Data-OpenWeatherMap%20%7C%20CPCB%20%7C%20NDMA-blue?style=flat-square)
 
----
+--- 
 
 </div>
 
